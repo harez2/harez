@@ -1,13 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from "react-helmet-async";
+import Navigation from "@/components/Navigation";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import Skills from "@/components/Skills";
+import Projects from "@/components/Projects";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <Helmet>
+        <title>Harez Albaki | Creative Developer & Designer</title>
+        <meta
+          name="description"
+          content="Harez Albaki is a creative developer and designer crafting digital experiences that blend aesthetics with functionality. View portfolio and get in touch."
+        />
+        <meta name="keywords" content="developer, designer, portfolio, web development, UI/UX, React, frontend" />
+        <link rel="canonical" href="https://harezalbaki.com" />
+      </Helmet>
+      
+      <main className="overflow-hidden">
+        <Navigation />
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Contact />
+        <Footer />
+      </main>
+    </>
   );
 };
 
