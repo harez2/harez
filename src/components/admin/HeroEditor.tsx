@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSiteContent, useUpdateSiteContent, HeroContent } from "@/hooks/useSiteContent";
+import { useSiteContent, useUpdateSiteContent, HeroContent, uploadImage } from "@/hooks/useSiteContent";
 import { toast } from "sonner";
-import { Loader2, Save } from "lucide-react";
+import { Loader2, Save, Upload, FileText, X } from "lucide-react";
 
 const HeroEditor = () => {
   const { data: content, isLoading } = useSiteContent<HeroContent>("hero");
@@ -11,13 +11,53 @@ const HeroEditor = () => {
     name: "",
     nameHighlight: "",
     subtitle: "",
+    resumeUrl: "",
   });
+  const [uploadingResume, setUploadingResume] = useState(false);
 
   useEffect(() => {
     if (content) {
-      setFormData(content);
+      setFormData({
+        ...content,
+        resumeUrl: content.resumeUrl || "",
+      });
     }
   }, [content]);
+
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Please upload a PDF or Word document");
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("File size must be less than 10MB");
+      return;
+    }
+
+    setUploadingResume(true);
+    try {
+      const resumePath = `resume/${Date.now()}-${file.name}`;
+      const resumeUrl = await uploadImage(file, resumePath);
+      setFormData({ ...formData, resumeUrl });
+      toast.success("Resume uploaded! Don't forget to save changes.");
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+      toast.error("Failed to upload resume");
+    } finally {
+      setUploadingResume(false);
+    }
+  };
+
+  const handleRemoveResume = () => {
+    setFormData({ ...formData, resumeUrl: "" });
+  };
 
   const handleSave = async () => {
     try {
@@ -89,6 +129,60 @@ const HeroEditor = () => {
             className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none"
             placeholder="Your tagline or brief description"
           />
+        </div>
+
+        {/* Resume Upload */}
+        <div className="pt-4 border-t border-border">
+          <label className="font-body text-sm text-foreground block mb-2">Resume / CV</label>
+          <p className="font-body text-xs text-muted-foreground mb-3">
+            Upload your resume for visitors to download. Supports PDF and Word documents.
+          </p>
+          
+          {formData.resumeUrl ? (
+            <div className="flex items-center gap-3 p-4 bg-secondary/50 border border-border rounded-xl">
+              <FileText className="w-8 h-8 text-primary" />
+              <div className="flex-1 min-w-0">
+                <p className="font-body text-sm text-foreground truncate">Resume uploaded</p>
+                <a 
+                  href={formData.resumeUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="font-body text-xs text-primary hover:underline"
+                >
+                  View current resume
+                </a>
+              </div>
+              <button
+                type="button"
+                onClick={handleRemoveResume}
+                className="p-2 text-muted-foreground hover:text-destructive transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-primary/50 hover:bg-secondary/30 transition-all">
+              {uploadingResume ? (
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span className="font-body text-sm">Uploading...</span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                  <Upload className="w-8 h-8" />
+                  <span className="font-body text-sm">Click to upload resume</span>
+                  <span className="font-body text-xs">PDF or Word (max 10MB)</span>
+                </div>
+              )}
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                onChange={handleResumeUpload}
+                className="hidden"
+                disabled={uploadingResume}
+              />
+            </label>
+          )}
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Download } from "lucide-react";
 import { useSiteContent, HeroContent } from "@/hooks/useSiteContent";
 
 const Hero = () => {
@@ -8,6 +8,7 @@ const Hero = () => {
   const name = content?.name || "Md Harez";
   const nameHighlight = content?.nameHighlight || "Al Baki";
   const subtitle = content?.subtitle || "Driving growth through data-driven campaigns. 5+ years of expertise in media buying, lead generation, and performance marketing.";
+  const resumeUrl = content?.resumeUrl;
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -51,6 +52,18 @@ const Hero = () => {
             >
               Get In Touch
             </a>
+            {resumeUrl && (
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="group px-8 py-4 bg-secondary border border-border text-foreground font-body font-medium rounded-xl shadow-soft hover:border-accent/50 hover:shadow-crystal transition-all duration-300 flex items-center gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Download CV
+              </a>
+            )}
           </div>
         </div>
 
