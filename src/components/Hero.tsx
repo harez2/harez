@@ -1,6 +1,14 @@
 import { ArrowDown } from "lucide-react";
+import { useSiteContent, HeroContent } from "@/hooks/useSiteContent";
 
 const Hero = () => {
+  const { data: content } = useSiteContent<HeroContent>("hero");
+
+  const badge = content?.badge || "Digital Marketing Manager";
+  const name = content?.name || "Md Harez";
+  const nameHighlight = content?.nameHighlight || "Al Baki";
+  const subtitle = content?.subtitle || "Driving growth through data-driven campaigns. 5+ years of expertise in media buying, lead generation, and performance marketing.";
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background decorations */}
@@ -14,19 +22,18 @@ const Hero = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border shadow-soft mb-8 opacity-0 animate-fade-up">
             <span className="w-2 h-2 rounded-full bg-gradient-crystal" />
-            <span className="font-body text-sm text-muted-foreground">Digital Marketing Manager</span>
+            <span className="font-body text-sm text-muted-foreground">{badge}</span>
           </div>
 
           {/* Main heading */}
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 opacity-0 animate-fade-up animation-delay-100">
-            Md Harez{" "}
-            <span className="text-gradient">Al Baki</span>
+            {name}{" "}
+            <span className="text-gradient">{nameHighlight}</span>
           </h1>
 
           {/* Subtitle */}
           <p className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10 opacity-0 animate-fade-up animation-delay-200 leading-relaxed">
-            Driving growth through data-driven campaigns. 5+ years of expertise in 
-            media buying, lead generation, and performance marketing.
+            {subtitle}
           </p>
 
           {/* CTA Buttons */}
