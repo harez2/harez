@@ -1,16 +1,16 @@
 const Footer = () => {
   return (
-    <footer className="py-12 bg-background border-t border-border">
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="py-8 border-t border-border">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo */}
-          <a href="#" className="font-display text-2xl font-semibold text-foreground">
-            HAB<span className="text-primary">.</span>
+          <a href="#" className="font-display text-lg font-bold text-foreground">
+            HAB<span className="text-gradient">.</span>
           </a>
 
           {/* Copyright */}
           <p className="font-body text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Md Harez Al Baki. All rights reserved.
+            © {new Date().getFullYear()} Md Harez Al Baki
           </p>
 
           {/* Back to top */}
@@ -19,7 +19,7 @@ const Footer = () => {
             className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
           >
             Back to top
-            <span className="rotate-180">↓</span>
+            <span className="text-xs">↑</span>
           </a>
         </div>
       </div>

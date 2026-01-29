@@ -2,55 +2,45 @@ import { ArrowDown } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-radial overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float animation-delay-400" />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 bg-grid opacity-40" />
+      <div className="absolute top-20 left-10 w-[500px] h-[500px] crystal-orb animate-float" />
+      <div className="absolute bottom-20 right-10 w-[400px] h-[400px] crystal-orb animate-float animation-delay-400" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] crystal-orb opacity-50" />
 
-      {/* Grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Pre-heading */}
-          <p className="font-body text-sm tracking-[0.3em] uppercase text-muted-foreground mb-8 opacity-0 animate-fade-up">
-            Digital Marketing Manager
-          </p>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-3xl mx-auto text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border shadow-soft mb-8 opacity-0 animate-fade-up">
+            <span className="w-2 h-2 rounded-full bg-gradient-crystal" />
+            <span className="font-body text-sm text-muted-foreground">Digital Marketing Manager</span>
+          </div>
 
           {/* Main heading */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold leading-tight mb-8 opacity-0 animate-fade-up animation-delay-200">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 opacity-0 animate-fade-up animation-delay-100">
             Md Harez{" "}
-            <span className="text-gradient italic">Al Baki</span>
+            <span className="text-gradient">Al Baki</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 opacity-0 animate-fade-up animation-delay-400">
-            Proficient in executing data-driven campaigns, optimizing ROI, 
-            and enhancing digital engagement with 5+ years of experience in 
-            media buying, lead generation, and growth marketing.
+          <p className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10 opacity-0 animate-fade-up animation-delay-200 leading-relaxed">
+            Driving growth through data-driven campaigns. 5+ years of expertise in 
+            media buying, lead generation, and performance marketing.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up animation-delay-600">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up animation-delay-300">
             <a
               href="#experience"
-              className="group px-8 py-4 bg-primary text-primary-foreground font-body font-medium rounded-full hover:shadow-gold transition-all duration-300 flex items-center gap-2"
+              className="group px-8 py-4 bg-gradient-crystal text-primary-foreground font-body font-medium rounded-xl shadow-crystal hover:shadow-glow transition-all duration-300 flex items-center gap-3"
             >
-              View My Experience
+              View Experience
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </a>
             <a
               href="#contact"
-              className="px-8 py-4 border border-border text-foreground font-body font-medium rounded-full hover:border-primary hover:text-primary transition-all duration-300"
+              className="px-8 py-4 bg-card border border-border text-foreground font-body font-medium rounded-xl shadow-soft hover:border-primary/50 hover:shadow-crystal transition-all duration-300"
             >
               Get In Touch
             </a>
@@ -58,7 +48,7 @@ const Hero = () => {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in animation-delay-800">
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in animation-delay-800">
           <a
             href="#about"
             className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
