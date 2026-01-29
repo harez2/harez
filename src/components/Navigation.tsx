@@ -15,7 +15,7 @@ const Navigation = () => {
   const navLinks = [
     { href: "#about", label: "About" },
     { href: "#skills", label: "Skills" },
-    { href: "#projects", label: "Projects" },
+    { href: "#experience", label: "Experience" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -33,7 +33,7 @@ const Navigation = () => {
             href="#"
             className="font-display text-2xl font-semibold text-foreground hover:text-primary transition-colors"
           >
-            HA<span className="text-primary">.</span>
+            HAB<span className="text-primary">.</span>
           </a>
 
           {/* Desktop Navigation */}

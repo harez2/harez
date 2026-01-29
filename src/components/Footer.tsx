@@ -5,12 +5,12 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <a href="#" className="font-display text-2xl font-semibold text-foreground">
-            HA<span className="text-primary">.</span>
+            HAB<span className="text-primary">.</span>
           </a>
 
           {/* Copyright */}
           <p className="font-body text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Harez Albaki. All rights reserved.
+            © {new Date().getFullYear()} Md Harez Al Baki. All rights reserved.
           </p>
 
           {/* Back to top */}
