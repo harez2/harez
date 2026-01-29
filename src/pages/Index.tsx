@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
-import Projects from "@/components/Projects";
+import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -11,12 +11,12 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Harez Albaki | Creative Developer & Designer</title>
+        <title>Md Harez Al Baki | Digital Marketing Manager</title>
         <meta
           name="description"
-          content="Harez Albaki is a creative developer and designer crafting digital experiences that blend aesthetics with functionality. View portfolio and get in touch."
+          content="Md Harez Al Baki is a Digital Marketing Manager with 5+ years experience in media buying, lead generation, and growth marketing. Specializing in Facebook Ads, Google Ads, and data-driven campaigns."
         />
-        <meta name="keywords" content="developer, designer, portfolio, web development, UI/UX, React, frontend" />
+        <meta name="keywords" content="digital marketing, performance marketing, media buyer, Facebook ads, Google ads, lead generation, growth marketing, Dhaka, Bangladesh" />
         <link rel="canonical" href="https://harezalbaki.com" />
       </Helmet>
       
@@ -25,7 +25,7 @@ const Index = () => {
         <Hero />
         <About />
         <Skills />
-        <Projects />
+        <Experience />
         <Contact />
         <Footer />
       </main>

@@ -1,41 +1,41 @@
-import { Code2, Palette, Layout, Zap, Globe, Cpu } from "lucide-react";
+import { Target, TrendingUp, BarChart3, Search, Mail, Users } from "lucide-react";
 
 const skills = [
   {
-    icon: Code2,
-    title: "Frontend Development",
-    description: "Building responsive and interactive web applications using modern frameworks.",
-    technologies: ["React", "TypeScript", "Next.js", "Vue"],
+    icon: Target,
+    title: "Paid Advertising",
+    description: "Expert in running high-performing campaigns across major advertising platforms.",
+    technologies: ["Facebook/Meta Ads", "Google Ads", "TikTok Ads", "Campaign Optimization"],
   },
   {
-    icon: Cpu,
-    title: "Backend Development",
-    description: "Creating robust server-side solutions and APIs for scalable applications.",
-    technologies: ["Node.js", "Python", "PostgreSQL", "MongoDB"],
+    icon: TrendingUp,
+    title: "Growth Marketing",
+    description: "Driving sustainable growth through strategic marketing initiatives and lead generation.",
+    technologies: ["Lead Generation", "A/B Testing", "Conversion API", "Digital Strategy"],
   },
   {
-    icon: Palette,
-    title: "UI/UX Design",
-    description: "Designing intuitive interfaces that prioritize user experience and aesthetics.",
-    technologies: ["Figma", "Adobe XD", "Sketch", "Framer"],
+    icon: BarChart3,
+    title: "Analytics & Data",
+    description: "Making data-driven decisions using advanced analytics and tracking tools.",
+    technologies: ["Web Analytics", "Google Tag Manager", "Pixel", "Data Analysis"],
   },
   {
-    icon: Layout,
-    title: "Responsive Design",
-    description: "Crafting layouts that work seamlessly across all devices and screen sizes.",
-    technologies: ["Tailwind CSS", "CSS Grid", "Flexbox", "Mobile-First"],
+    icon: Search,
+    title: "SEO & Organic",
+    description: "Optimizing web presence for search engines and organic traffic growth.",
+    technologies: ["On-page SEO", "Keyword Research", "Content Strategy", "Technical SEO"],
   },
   {
-    icon: Zap,
-    title: "Performance",
-    description: "Optimizing applications for speed, efficiency, and excellent user experience.",
-    technologies: ["Webpack", "Lazy Loading", "Caching", "CDN"],
+    icon: Mail,
+    title: "Email Marketing",
+    description: "Creating effective email campaigns for engagement and conversion.",
+    technologies: ["Email Campaigns", "Automation", "Segmentation", "A/B Testing"],
   },
   {
-    icon: Globe,
-    title: "Web Standards",
-    description: "Following best practices for accessibility, SEO, and modern web standards.",
-    technologies: ["WCAG", "SEO", "PWA", "Web Vitals"],
+    icon: Users,
+    title: "Team Leadership",
+    description: "Leading teams and collaborating with agencies to achieve marketing goals.",
+    technologies: ["Team Management", "Agency Collaboration", "Negotiation", "Strategy"],
   },
 ];
 
@@ -52,8 +52,8 @@ const Skills = () => {
             Skills & <span className="text-gradient italic">Expertise</span>
           </h2>
           <p className="font-body text-muted-foreground">
-            A comprehensive toolkit for building exceptional digital products, 
-            from concept to deployment.
+            A comprehensive toolkit for driving digital growth, from media buying 
+            to analytics and team leadership.
           </p>
         </div>
 

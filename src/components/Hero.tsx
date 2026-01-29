@@ -23,28 +23,29 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Pre-heading */}
           <p className="font-body text-sm tracking-[0.3em] uppercase text-muted-foreground mb-8 opacity-0 animate-fade-up">
-            Creative Developer & Designer
+            Digital Marketing Manager
           </p>
 
           {/* Main heading */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold leading-tight mb-8 opacity-0 animate-fade-up animation-delay-200">
-            Harez{" "}
-            <span className="text-gradient italic">Albaki</span>
+            Md Harez{" "}
+            <span className="text-gradient italic">Al Baki</span>
           </h1>
 
           {/* Subtitle */}
           <p className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 opacity-0 animate-fade-up animation-delay-400">
-            Crafting digital experiences that blend aesthetics with functionality.
-            I transform ideas into elegant, impactful solutions.
+            Proficient in executing data-driven campaigns, optimizing ROI, 
+            and enhancing digital engagement with 5+ years of experience in 
+            media buying, lead generation, and growth marketing.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up animation-delay-600">
             <a
-              href="#projects"
+              href="#experience"
               className="group px-8 py-4 bg-primary text-primary-foreground font-body font-medium rounded-full hover:shadow-gold transition-all duration-300 flex items-center gap-2"
             >
-              View My Work
+              View My Experience
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </a>
             <a
