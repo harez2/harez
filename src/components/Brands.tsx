@@ -20,40 +20,42 @@ const Brands = () => {
     return null;
   }
 
-  // Duplicate brands for seamless infinite scroll
-  const duplicatedBrands = [...brands, ...brands];
+  // Duplicate brands for seamless infinite scroll (need enough to fill viewport)
+  const duplicatedBrands = [...brands, ...brands, ...brands];
+  const reversedBrands = [...brands].reverse();
+  const duplicatedReversed = [...reversedBrands, ...reversedBrands, ...reversedBrands];
 
   return (
-    <section id="brands" className="py-24 relative overflow-hidden">
+    <section id="brands" className="py-20 lg:py-28 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/30 to-background" />
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 crystal-orb opacity-30" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 crystal-orb opacity-20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+      <div className="absolute top-1/2 left-1/4 w-96 h-96 crystal-orb opacity-20" />
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 crystal-orb opacity-15" />
       
       <div className="container mx-auto px-6 relative z-10">
         <ScrollReveal>
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 mb-6 text-sm font-body font-medium text-primary bg-primary/10 rounded-full border border-primary/20">
+          <div className="text-center mb-12 lg:mb-16">
+            <span className="inline-block px-4 py-1.5 mb-5 text-sm font-body font-medium text-primary bg-primary/10 rounded-full border border-primary/20">
               Trusted Partners
             </span>
-            <h2 className="text-4xl lg:text-5xl font-display font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-4">
               Brands I <span className="text-gradient">Worked With</span>
             </h2>
-            <p className="text-muted-foreground font-body max-w-2xl mx-auto">
+            <p className="text-muted-foreground font-body max-w-xl mx-auto text-sm sm:text-base">
               Collaborated with industry-leading brands to deliver exceptional digital marketing results
             </p>
           </div>
         </ScrollReveal>
 
         {/* Marquee Container */}
-        <div className="relative">
+        <div className="relative max-w-5xl mx-auto">
           {/* Gradient fade edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           
           {/* First row - scrolls left */}
-          <div className="overflow-hidden mb-6">
-            <div className="flex animate-marquee hover:pause-animation">
+          <div className="overflow-hidden py-2">
+            <div className="flex animate-marquee hover:pause-animation" style={{ width: 'max-content' }}>
               {duplicatedBrands.map((brand, index) => (
                 <BrandCard key={`row1-${brand.id}-${index}`} brand={brand} />
               ))}
@@ -61,9 +63,9 @@ const Brands = () => {
           </div>
           
           {/* Second row - scrolls right */}
-          <div className="overflow-hidden">
-            <div className="flex animate-marquee-reverse hover:pause-animation">
-              {duplicatedBrands.reverse().map((brand, index) => (
+          <div className="overflow-hidden py-2">
+            <div className="flex animate-marquee-reverse hover:pause-animation" style={{ width: 'max-content' }}>
+              {duplicatedReversed.map((brand, index) => (
                 <BrandCard key={`row2-${brand.id}-${index}`} brand={brand} />
               ))}
             </div>
@@ -85,23 +87,23 @@ interface BrandCardProps {
 
 const BrandCard = ({ brand }: BrandCardProps) => {
   const content = (
-    <div className="group relative flex-shrink-0 mx-4 w-40 h-24 flex items-center justify-center">
+    <div className="group relative flex-shrink-0 mx-3 w-32 sm:w-36 h-20 sm:h-24 flex items-center justify-center">
       {/* Glassmorphism card */}
-      <div className="absolute inset-0 bg-glass border border-glass rounded-2xl shadow-soft transition-all duration-500 group-hover:shadow-glow group-hover:border-primary/30 group-hover:scale-105">
+      <div className="absolute inset-0 bg-glass border border-glass rounded-xl shadow-soft transition-all duration-500 group-hover:shadow-glow group-hover:border-primary/30 group-hover:scale-105">
         {/* Holographic shimmer effect */}
-        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden">
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-shine animate-shimmer" />
         </div>
         
         {/* Neon glow on hover */}
-        <div className="absolute -inset-0.5 bg-gradient-crystal rounded-2xl opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-500" />
+        <div className="absolute -inset-0.5 bg-gradient-crystal rounded-xl opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-500" />
       </div>
       
       {/* Logo */}
       <img
         src={brand.logo_url}
         alt={brand.name}
-        className="relative z-10 max-w-[80%] max-h-[60%] object-contain filter transition-all duration-300 group-hover:brightness-110 dark:brightness-90 dark:group-hover:brightness-110"
+        className="relative z-10 max-w-[75%] max-h-[55%] object-contain filter transition-all duration-300 group-hover:brightness-110 dark:brightness-90 dark:group-hover:brightness-110"
       />
     </div>
   );
