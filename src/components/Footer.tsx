@@ -18,13 +18,6 @@ const Footer = () => {
           {/* Links */}
           <div className="flex items-center gap-4">
             <a
-              href="/admin"
-              className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
-            >
-              <Settings className="w-3 h-3" />
-              Admin
-            </a>
-            <a
               href="#"
               className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
             >
