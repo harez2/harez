@@ -6,6 +6,7 @@ export interface HeroContent {
   name: string;
   nameHighlight: string;
   subtitle: string;
+  resumeUrl?: string;
 }
 
 export interface AboutContent {
