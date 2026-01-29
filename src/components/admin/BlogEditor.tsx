@@ -392,6 +392,7 @@ const BlogEditor = () => {
             <Label>Content</Label>
             <div className="border border-border rounded-lg overflow-hidden">
               <Editor
+                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                 onInit={(evt, editor) => (editorRef.current = editor)}
                 value={formData.content || ""}
                 onEditorChange={handleEditorChange}
