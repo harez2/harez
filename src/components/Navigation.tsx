@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 const Navigation = () => {
@@ -17,6 +18,7 @@ const Navigation = () => {
     { href: "#about", label: "About" },
     { href: "#skills", label: "Skills" },
     { href: "#experience", label: "Experience" },
+    { href: "/blog", label: "Blog", isRoute: true },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -39,15 +41,25 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isRoute ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
             <ThemeToggle />
             <a
               href="#contact"
@@ -88,16 +100,27 @@ const Navigation = () => {
           }`}
         >
           <div className="flex flex-col gap-3 pt-4 border-t border-border">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="font-body text-muted-foreground hover:text-foreground transition-colors py-2"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isRoute ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="font-body text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="font-body text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
             <a
               href="#contact"
               onClick={() => setMobileOpen(false)}

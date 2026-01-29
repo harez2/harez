@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          category: string
+          content: string | null
+          created_at: string
+          display_order: number
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          meta_description: string | null
+          meta_keywords: string | null
+          meta_title: string | null
+          published_at: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          content?: string | null
+          created_at?: string
+          display_order?: number
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
+          published_at?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content?: string | null
+          created_at?: string
+          display_order?: number
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
+          published_at?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       brands: {
         Row: {
           created_at: string
