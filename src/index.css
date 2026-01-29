@@ -45,9 +45,7 @@
     --frost: 220 20% 88%;
     
     /* Glass effects */
-    --glass-bg: 0 0% 100% / 0.7;
     --glass-border: 220 30% 90%;
-    --glass-shadow: 220 60% 50% / 0.08;
     
     /* Gradients */
     --gradient-crystal: linear-gradient(135deg, hsl(220 90% 56%), hsl(260 80% 60%));
@@ -107,7 +105,7 @@
   }
 
   .bg-glass {
-    background: hsl(var(--glass-bg));
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
