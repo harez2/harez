@@ -1,19 +1,23 @@
 import ScrollReveal from "./ScrollReveal";
+import profilePhoto from "@/assets/profile-photo.png";
 
 const About = () => {
   return (
     <section id="about" className="py-24 lg:py-32">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left side - Visual */}
+          {/* Left side - Photo */}
           <ScrollReveal direction="left">
             <div className="relative">
               <div className="aspect-square max-w-md mx-auto lg:mx-0 relative">
                 {/* Crystal card effect */}
                 <div className="absolute inset-0 bg-gradient-crystal rounded-3xl opacity-10" />
-                <div className="absolute inset-0 bg-card rounded-3xl border border-border shadow-crystal" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-8xl font-bold text-gradient opacity-30">HAB</span>
+                <div className="absolute inset-0 bg-card rounded-3xl border border-border shadow-crystal overflow-hidden">
+                  <img 
+                    src={profilePhoto} 
+                    alt="Md Harez Al Baki" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 {/* Decorative elements */}
                 <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-crystal rounded-2xl opacity-20 blur-xl" />
