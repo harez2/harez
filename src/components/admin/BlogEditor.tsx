@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
 import {
   Plus,
   Pencil,
   Trash2,
-  Eye,
   Save,
   X,
   Upload,
@@ -12,6 +11,7 @@ import {
   FileText,
   Briefcase,
 } from "lucide-react";
+import { Editor } from "@tinymce/tinymce-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -39,6 +39,7 @@ const BlogEditor = () => {
   const [mode, setMode] = useState<EditorMode>("list");
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [uploading, setUploading] = useState(false);
+  const editorRef = useRef<any>(null);
 
   // Form state
   const [formData, setFormData] = useState<Partial<BlogPostInsert>>({
@@ -76,8 +77,23 @@ const BlogEditor = () => {
   };
 
   const handleCreate = () => {
+    // Reset form data first, then set mode to create
+    setFormData({
+      title: "",
+      slug: "",
+      excerpt: "",
+      content: "",
+      featured_image: "",
+      category: "blog",
+      status: "draft",
+      meta_title: "",
+      meta_description: "",
+      meta_keywords: "",
+      published_at: null,
+      display_order: 0,
+    });
+    setEditingPost(null);
     setMode("create");
-    resetForm();
   };
 
   const handleEdit = (post: BlogPost) => {
@@ -137,6 +153,10 @@ const BlogEditor = () => {
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleEditorChange = (content: string) => {
+    setFormData({ ...formData, content });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -367,17 +387,53 @@ const BlogEditor = () => {
             />
           </div>
 
-          {/* Content */}
+          {/* Content - TinyMCE Editor */}
           <div className="space-y-2">
-            <Label htmlFor="content">Content (HTML supported)</Label>
-            <Textarea
-              id="content"
-              value={formData.content || ""}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              placeholder="Write your article content here... HTML tags are supported for formatting."
-              rows={15}
-              className="font-mono text-sm"
-            />
+            <Label>Content</Label>
+            <div className="border border-border rounded-lg overflow-hidden">
+              <Editor
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                value={formData.content || ""}
+                onEditorChange={handleEditorChange}
+                init={{
+                  height: 500,
+                  menubar: true,
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | blocks | " +
+                    "bold italic forecolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "link image media | removeformat | code | help",
+                  content_style:
+                    "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; font-size: 16px; line-height: 1.6; }",
+                  skin: "oxide",
+                  content_css: "default",
+                  branding: false,
+                  promotion: false,
+                }}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Use the toolbar above to format your content with headings, lists, images, and more.
+            </p>
           </div>
         </div>
 
