@@ -60,6 +60,52 @@
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  .dark {
+    /* Crystal Dark Theme */
+    --background: 220 20% 8%;
+    --foreground: 220 15% 95%;
+
+    --card: 220 20% 12%;
+    --card-foreground: 220 15% 95%;
+
+    --popover: 220 20% 12%;
+    --popover-foreground: 220 15% 95%;
+
+    --primary: 220 90% 60%;
+    --primary-foreground: 220 20% 8%;
+
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 220 15% 95%;
+
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 260 80% 65%;
+    --accent-foreground: 220 20% 8%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 220 90% 60%;
+
+    /* Crystal design tokens - dark */
+    --crystal-blue: 220 90% 60%;
+    --crystal-violet: 260 80% 65%;
+    --crystal-cyan: 190 90% 55%;
+    --ice: 220 20% 15%;
+    --frost: 220 15% 25%;
+
+    /* Glass effects - dark */
+    --glass-border: 220 20% 25%;
+
+    /* Shadows - dark */
+    --shadow-crystal: 0 4px 24px hsl(220 60% 30% / 0.3);
+    --shadow-soft: 0 2px 12px hsl(220 30% 10% / 0.2);
+    --shadow-glow: 0 0 40px hsl(220 90% 60% / 0.25);
+  }
 }
 
 @layer base {
@@ -108,6 +154,10 @@
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+  }
+
+  .dark .bg-glass {
+    background: rgba(20, 24, 33, 0.8);
   }
 
   .border-glass {
