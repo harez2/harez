@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -47,6 +48,7 @@ const Navigation = () => {
                 {link.label}
               </a>
             ))}
+            <ThemeToggle />
             <a
               href="#contact"
               className="px-5 py-2 bg-gradient-crystal text-primary-foreground font-body text-sm font-medium rounded-lg shadow-soft hover:shadow-crystal transition-all"
