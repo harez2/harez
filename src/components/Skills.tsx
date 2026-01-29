@@ -4,77 +4,76 @@ const skills = [
   {
     icon: Target,
     title: "Paid Advertising",
-    description: "Expert in running high-performing campaigns across major advertising platforms.",
-    technologies: ["Facebook/Meta Ads", "Google Ads", "TikTok Ads", "Campaign Optimization"],
+    description: "High-performing campaigns across major platforms.",
+    technologies: ["Meta Ads", "Google Ads", "TikTok Ads", "Campaign Optimization"],
   },
   {
     icon: TrendingUp,
     title: "Growth Marketing",
-    description: "Driving sustainable growth through strategic marketing initiatives and lead generation.",
+    description: "Strategic initiatives for sustainable growth.",
     technologies: ["Lead Generation", "A/B Testing", "Conversion API", "Digital Strategy"],
   },
   {
     icon: BarChart3,
     title: "Analytics & Data",
-    description: "Making data-driven decisions using advanced analytics and tracking tools.",
+    description: "Data-driven decisions with advanced tracking.",
     technologies: ["Web Analytics", "Google Tag Manager", "Pixel", "Data Analysis"],
   },
   {
     icon: Search,
     title: "SEO & Organic",
-    description: "Optimizing web presence for search engines and organic traffic growth.",
+    description: "Optimizing presence for organic growth.",
     technologies: ["On-page SEO", "Keyword Research", "Content Strategy", "Technical SEO"],
   },
   {
     icon: Mail,
     title: "Email Marketing",
-    description: "Creating effective email campaigns for engagement and conversion.",
+    description: "Effective campaigns for engagement.",
     technologies: ["Email Campaigns", "Automation", "Segmentation", "A/B Testing"],
   },
   {
     icon: Users,
     title: "Team Leadership",
-    description: "Leading teams and collaborating with agencies to achieve marketing goals.",
+    description: "Leading teams to achieve goals.",
     technologies: ["Team Management", "Agency Collaboration", "Negotiation", "Strategy"],
   },
 ];
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-32 bg-secondary/50">
-      <div className="container mx-auto px-6 lg:px-12">
+    <section id="skills" className="py-24 lg:py-32 bg-secondary/30">
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-20">
-          <p className="font-body text-sm tracking-[0.3em] uppercase text-primary mb-4">
-            What I Do
+        <div className="text-center max-w-xl mx-auto mb-16">
+          <p className="font-body text-sm font-medium text-primary mb-4 tracking-wide">
+            Expertise
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold mb-6">
-            Skills & <span className="text-gradient italic">Expertise</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+            Skills & <span className="text-gradient">Capabilities</span>
           </h2>
           <p className="font-body text-muted-foreground">
-            A comprehensive toolkit for driving digital growth, from media buying 
-            to analytics and team leadership.
+            A comprehensive toolkit for driving digital growth and business results.
           </p>
         </div>
 
         {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {skills.map((skill, index) => (
             <div
               key={skill.title}
-              className="group bg-card border border-border rounded-2xl p-8 hover:border-primary/50 hover:shadow-gold transition-all duration-500"
+              className="group bg-card border border-border rounded-2xl p-6 hover:shadow-crystal hover:border-primary/30 transition-all duration-300"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Icon */}
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                <skill.icon className="w-7 h-7 text-primary" />
+              <div className="w-12 h-12 rounded-xl bg-gradient-crystal flex items-center justify-center mb-5 group-hover:shadow-glow transition-shadow">
+                <skill.icon className="w-6 h-6 text-primary-foreground" />
               </div>
 
               {/* Content */}
-              <h3 className="font-display text-xl font-semibold mb-3 text-foreground">
+              <h3 className="font-display text-lg font-semibold mb-2 text-foreground">
                 {skill.title}
               </h3>
-              <p className="font-body text-muted-foreground text-sm mb-6">
+              <p className="font-body text-sm text-muted-foreground mb-5">
                 {skill.description}
               </p>
 
@@ -83,7 +82,7 @@ const Skills = () => {
                 {skill.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="font-body text-xs px-3 py-1 rounded-full bg-secondary text-muted-foreground"
+                    className="font-body text-xs px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground"
                   >
                     {tech}
                   </span>

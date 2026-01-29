@@ -2,59 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 240 10% 4%;
-    --foreground: 40 20% 95%;
+    /* Crystal Light Theme - Clean, minimal, professional */
+    --background: 220 20% 98%;
+    --foreground: 220 25% 12%;
 
-    --card: 240 8% 8%;
-    --card-foreground: 40 20% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 12%;
 
-    --popover: 240 8% 8%;
-    --popover-foreground: 40 20% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 12%;
 
-    --primary: 43 74% 49%;
-    --primary-foreground: 240 10% 4%;
+    --primary: 220 90% 56%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 6% 12%;
-    --secondary-foreground: 40 20% 95%;
+    --secondary: 220 15% 94%;
+    --secondary-foreground: 220 25% 12%;
 
-    --muted: 240 6% 15%;
-    --muted-foreground: 40 10% 60%;
+    --muted: 220 15% 92%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 43 74% 49%;
-    --accent-foreground: 240 10% 4%;
+    --accent: 260 80% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 20% 95%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 18%;
-    --input: 240 6% 18%;
-    --ring: 43 74% 49%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 220 90% 56%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    /* Custom design tokens */
-    --gold: 43 74% 49%;
-    --gold-light: 43 80% 65%;
-    --gold-dark: 43 70% 35%;
-    --charcoal: 240 8% 8%;
-    --charcoal-light: 240 6% 15%;
+    /* Crystal design tokens */
+    --crystal-blue: 220 90% 56%;
+    --crystal-violet: 260 80% 60%;
+    --crystal-cyan: 190 90% 50%;
+    --ice: 220 30% 96%;
+    --frost: 220 20% 88%;
+    
+    /* Glass effects */
+    --glass-bg: 0 0% 100% / 0.7;
+    --glass-border: 220 30% 90%;
+    --glass-shadow: 220 60% 50% / 0.08;
     
     /* Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(43 74% 49%), hsl(43 80% 65%));
-    --gradient-dark: linear-gradient(180deg, hsl(240 10% 4%), hsl(240 8% 8%));
-    --gradient-radial: radial-gradient(ellipse at center, hsl(240 6% 12%), hsl(240 10% 4%));
+    --gradient-crystal: linear-gradient(135deg, hsl(220 90% 56%), hsl(260 80% 60%));
+    --gradient-frost: linear-gradient(180deg, hsl(220 20% 98%), hsl(220 15% 94%));
+    --gradient-shine: linear-gradient(135deg, transparent 0%, hsl(0 0% 100% / 0.4) 50%, transparent 100%);
     
     /* Shadows */
-    --shadow-gold: 0 0 40px hsl(43 74% 49% / 0.15);
-    --shadow-card: 0 10px 40px hsl(0 0% 0% / 0.3);
+    --shadow-crystal: 0 4px 24px hsl(220 60% 50% / 0.12);
+    --shadow-soft: 0 2px 12px hsl(220 30% 50% / 0.06);
+    --shadow-glow: 0 0 40px hsl(220 90% 56% / 0.2);
     
     /* Transitions */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -69,46 +75,72 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-semibold tracking-tight;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
 
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
   }
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-gold);
+    background-image: var(--gradient-crystal);
   }
 
-  .bg-gradient-gold {
-    background-image: var(--gradient-gold);
+  .bg-gradient-crystal {
+    background-image: var(--gradient-crystal);
   }
 
-  .bg-gradient-dark {
-    background-image: var(--gradient-dark);
+  .bg-gradient-frost {
+    background-image: var(--gradient-frost);
   }
 
-  .bg-gradient-radial {
-    background-image: var(--gradient-radial);
+  .bg-glass {
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
-  .shadow-gold {
-    box-shadow: var(--shadow-gold);
+  .border-glass {
+    border-color: hsl(var(--glass-border));
   }
 
-  .shadow-card {
-    box-shadow: var(--shadow-card);
+  .shadow-crystal {
+    box-shadow: var(--shadow-crystal);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Crystal shimmer effect */
+  .crystal-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .crystal-shine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-shine);
+    transform: translateX(-100%);
+    animation: shine 3s ease-in-out infinite;
   }
 
   .animate-fade-up {
@@ -119,16 +151,20 @@
     animation: fadeIn 0.6s ease-out forwards;
   }
 
-  .animate-slide-in-left {
-    animation: slideInLeft 0.8s ease-out forwards;
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
   }
 
-  .animate-slide-in-right {
-    animation: slideInRight 0.8s ease-out forwards;
+  .animation-delay-100 {
+    animation-delay: 0.1s;
   }
 
   .animation-delay-200 {
     animation-delay: 0.2s;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 0.3s;
   }
 
   .animation-delay-400 {
@@ -147,7 +183,7 @@
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -164,25 +200,23 @@
   }
 }
 
-@keyframes slideInLeft {
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  50%, 100% {
+    transform: translateX(100%);
   }
 }
 
@@ -191,10 +225,25 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Subtle grid pattern */
+.bg-grid {
+  background-image: 
+    linear-gradient(hsl(220 30% 90% / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(220 30% 90% / 0.5) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Crystal orb decorations */
+.crystal-orb {
+  background: linear-gradient(135deg, hsl(220 90% 56% / 0.15), hsl(260 80% 60% / 0.1));
+  filter: blur(60px);
+  border-radius: 50%;
 }
