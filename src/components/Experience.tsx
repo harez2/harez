@@ -1,55 +1,6 @@
 import { Briefcase, GraduationCap } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
-
-const experiences = [
-  {
-    title: "Manager, Digital Marketing",
-    company: "Starkology Solution Limited",
-    period: "June 2025 – Present",
-    highlights: [
-      "Leading the digital marketing team",
-      "Developing strategies to boost clients and projects",
-      "Ensuring ROAS remains above 5-8X",
-    ],
-  },
-  {
-    title: "Performance Marketer",
-    company: "Light of Hope Ltd.",
-    period: "Apr 2024 – June 2025",
-    highlights: [
-      "Achieved 15X increase in Revenue",
-      "Managed campaigns across Facebook, Google, and other platforms",
-      "Strategized data-driven campaigns for ROI optimization",
-    ],
-  },
-  {
-    title: "Media Buyer",
-    company: "The Prestige Magazine",
-    period: "Jul 2023 - Apr 2024",
-    highlights: [
-      "Increased brand visibility by 25%",
-      "Achieved 30% increase in ROI",
-    ],
-  },
-  {
-    title: "Sr. Executive, Growth Marketing",
-    company: "Kholabazaar Int. Limited",
-    period: "Nov 2022 - Jul 2023",
-    highlights: [
-      "Reduced customer acquisition costs by 15%",
-      "Conducted A/B testing on creatives",
-    ],
-  },
-  {
-    title: "Digital Marketing Strategist",
-    company: "Khaas Food Ltd.",
-    period: "Dec 2021 - Oct 2022",
-    highlights: [
-      "Increased organic traffic by 40%",
-      "Executed multi-channel campaigns",
-    ],
-  },
-];
+import { useExperience } from "@/hooks/useSiteContent";
 
 const education = [
   {
@@ -70,6 +21,8 @@ const education = [
 ];
 
 const Experience = () => {
+  const { data: experiences } = useExperience();
+
   return (
     <section id="experience" className="py-24 lg:py-32">
       <div className="container mx-auto px-6">
@@ -103,13 +56,13 @@ const Experience = () => {
             </ScrollReveal>
             
             <div className="space-y-4">
-              {experiences.map((exp, index) => (
-                <ScrollReveal key={index} delay={index * 80}>
+              {experiences?.map((exp, index) => (
+                <ScrollReveal key={exp.id} delay={index * 80}>
                   <div className="bg-card border border-border rounded-2xl p-6 hover:shadow-crystal hover:border-primary/30 transition-all duration-300">
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-4">
                       <div>
                         <h4 className="font-display text-base font-semibold text-foreground">
-                          {exp.title}
+                          {exp.role}
                         </h4>
                         <p className="font-body text-sm text-primary">{exp.company}</p>
                       </div>
@@ -117,14 +70,19 @@ const Experience = () => {
                         {exp.period}
                       </span>
                     </div>
-                    <ul className="space-y-1.5">
-                      {exp.highlights.map((highlight, i) => (
-                        <li key={i} className="font-body text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
+                    {exp.description && (
+                      <p className="font-body text-sm text-muted-foreground mb-3">{exp.description}</p>
+                    )}
+                    {exp.achievements && exp.achievements.length > 0 && (
+                      <ul className="space-y-1.5">
+                        {exp.achievements.map((achievement, i) => (
+                          <li key={i} className="font-body text-sm text-muted-foreground flex items-start gap-2">
+                            <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />
+                            {achievement}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </ScrollReveal>
               ))}

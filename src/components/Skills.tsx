@@ -1,46 +1,36 @@
-import { Target, TrendingUp, BarChart3, Search, Mail, Users } from "lucide-react";
+import { Target, TrendingUp, BarChart3, Search, Mail, Users, LucideIcon } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
+import { useSkills, Skill } from "@/hooks/useSiteContent";
 
-const skills = [
-  {
-    icon: Target,
-    title: "Paid Advertising",
-    description: "High-performing campaigns across major platforms.",
-    technologies: ["Meta Ads", "Google Ads", "TikTok Ads", "Campaign Optimization"],
-  },
-  {
-    icon: TrendingUp,
-    title: "Growth Marketing",
-    description: "Strategic initiatives for sustainable growth.",
-    technologies: ["Lead Generation", "A/B Testing", "Conversion API", "Digital Strategy"],
-  },
-  {
-    icon: BarChart3,
-    title: "Analytics & Data",
-    description: "Data-driven decisions with advanced tracking.",
-    technologies: ["Web Analytics", "Google Tag Manager", "Pixel", "Data Analysis"],
-  },
-  {
-    icon: Search,
-    title: "SEO & Organic",
-    description: "Optimizing presence for organic growth.",
-    technologies: ["On-page SEO", "Keyword Research", "Content Strategy", "Technical SEO"],
-  },
-  {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Effective campaigns for engagement.",
-    technologies: ["Email Campaigns", "Automation", "Segmentation", "A/B Testing"],
-  },
-  {
-    icon: Users,
-    title: "Team Leadership",
-    description: "Leading teams to achieve goals.",
-    technologies: ["Team Management", "Agency Collaboration", "Negotiation", "Strategy"],
-  },
-];
+const categoryIcons: Record<string, LucideIcon> = {
+  "Paid Advertising": Target,
+  "Organic Marketing": TrendingUp,
+  "Analytics": BarChart3,
+  "SEO": Search,
+  "Email": Mail,
+  "Leadership": Users,
+};
+
+const categoryDescriptions: Record<string, string> = {
+  "Paid Advertising": "High-performing campaigns across major platforms.",
+  "Organic Marketing": "Strategic initiatives for sustainable growth.",
+  "Analytics": "Data-driven decisions with advanced tracking.",
+};
 
 const Skills = () => {
+  const { data: skills } = useSkills();
+
+  // Group skills by category
+  const groupedSkills = skills?.reduce((acc, skill) => {
+    if (!acc[skill.category]) {
+      acc[skill.category] = [];
+    }
+    acc[skill.category].push(skill);
+    return acc;
+  }, {} as Record<string, Skill[]>) ?? {};
+
+  const categories = Object.keys(groupedSkills);
+
   return (
     <section id="skills" className="py-24 lg:py-32 bg-secondary/30">
       <div className="container mx-auto px-6">
@@ -61,36 +51,42 @@ const Skills = () => {
 
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {skills.map((skill, index) => (
-            <ScrollReveal key={skill.title} delay={index * 100}>
-              <div className="group bg-card border border-border rounded-2xl p-6 hover:shadow-crystal hover:border-primary/30 transition-all duration-300 h-full">
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-gradient-crystal flex items-center justify-center mb-5 group-hover:shadow-glow transition-shadow">
-                  <skill.icon className="w-6 h-6 text-primary-foreground" />
-                </div>
+          {categories.map((category, index) => {
+            const Icon = categoryIcons[category] || Target;
+            const description = categoryDescriptions[category] || `Expert skills in ${category}.`;
+            const categorySkills = groupedSkills[category];
 
-                {/* Content */}
-                <h3 className="font-display text-lg font-semibold mb-2 text-foreground">
-                  {skill.title}
-                </h3>
-                <p className="font-body text-sm text-muted-foreground mb-5">
-                  {skill.description}
-                </p>
+            return (
+              <ScrollReveal key={category} delay={index * 100}>
+                <div className="group bg-card border border-border rounded-2xl p-6 hover:shadow-crystal hover:border-primary/30 transition-all duration-300 h-full">
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-xl bg-gradient-crystal flex items-center justify-center mb-5 group-hover:shadow-glow transition-shadow">
+                    <Icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {skill.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="font-body text-xs px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                  {/* Content */}
+                  <h3 className="font-display text-lg font-semibold mb-2 text-foreground">
+                    {category}
+                  </h3>
+                  <p className="font-body text-sm text-muted-foreground mb-5">
+                    {description}
+                  </p>
+
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2">
+                    {categorySkills.map((skill) => (
+                      <span
+                        key={skill.id}
+                        className="font-body text-xs px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground"
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>

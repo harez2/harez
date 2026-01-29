@@ -1,7 +1,12 @@
 import ScrollReveal from "./ScrollReveal";
 import profilePhoto from "@/assets/profile-photo.png";
+import { useSiteContent, AboutContent } from "@/hooks/useSiteContent";
 
 const About = () => {
+  const { data: content } = useSiteContent<AboutContent>("about");
+  
+  const profileImage = content?.profileImage || profilePhoto;
+
   return (
     <section id="about" className="py-24 lg:py-32">
       <div className="container mx-auto px-6">
@@ -14,7 +19,7 @@ const About = () => {
                 <div className="absolute inset-0 bg-gradient-crystal rounded-3xl opacity-10" />
                 <div className="absolute inset-0 bg-card rounded-3xl border border-border shadow-crystal overflow-hidden">
                   <img 
-                    src={profilePhoto} 
+                    src={profileImage} 
                     alt="Md Harez Al Baki" 
                     className="w-full h-full object-cover"
                   />

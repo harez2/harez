@@ -1,3 +1,5 @@
+import { Settings } from "lucide-react";
+
 const Footer = () => {
   return (
     <footer className="py-8 border-t border-border">
@@ -13,14 +15,23 @@ const Footer = () => {
             © {new Date().getFullYear()} Md Harez Al Baki
           </p>
 
-          {/* Back to top */}
-          <a
-            href="#"
-            className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-          >
-            Back to top
-            <span className="text-xs">↑</span>
-          </a>
+          {/* Links */}
+          <div className="flex items-center gap-4">
+            <a
+              href="/admin"
+              className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+            >
+              <Settings className="w-3 h-3" />
+              Admin
+            </a>
+            <a
+              href="#"
+              className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+            >
+              Back to top
+              <span className="text-xs">↑</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
