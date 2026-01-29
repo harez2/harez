@@ -37,6 +37,14 @@ export interface Experience {
   display_order: number;
 }
 
+export interface Brand {
+  id: string;
+  name: string;
+  logo_url: string;
+  website_url: string | null;
+  display_order: number;
+}
+
 export const useSiteContent = <T>(section: string) => {
   return useQuery({
     queryKey: ["site_content", section],
@@ -189,6 +197,69 @@ export const useDeleteExperience = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["experience"] });
+    },
+  });
+};
+
+// ============ Brand Hooks ============
+
+export const useBrands = () => {
+  return useQuery({
+    queryKey: ["brands"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("brands")
+        .select("*")
+        .order("display_order");
+
+      if (error) throw error;
+      return data as Brand[];
+    },
+  });
+};
+
+export const useCreateBrand = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (brand: Omit<Brand, "id">) => {
+      const { error } = await supabase.from("brands").insert(brand);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["brands"] });
+    },
+  });
+};
+
+export const useUpdateBrand = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (brand: Partial<Brand> & { id: string }) => {
+      const { error } = await supabase
+        .from("brands")
+        .update(brand)
+        .eq("id", brand.id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["brands"] });
+    },
+  });
+};
+
+export const useDeleteBrand = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("brands").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["brands"] });
     },
   });
 };

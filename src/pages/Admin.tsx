@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Image } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2 } from "lucide-react";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
 import ExperienceEditor from "@/components/admin/ExperienceEditor";
 import ContactEditor from "@/components/admin/ContactEditor";
+import BrandsEditor from "@/components/admin/BrandsEditor";
 
-type Tab = "hero" | "about" | "skills" | "experience" | "contact";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "contact";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -42,6 +43,7 @@ const Admin = () => {
     { id: "hero" as Tab, label: "Hero", icon: Home },
     { id: "about" as Tab, label: "About", icon: FileText },
     { id: "skills" as Tab, label: "Skills", icon: GraduationCap },
+    { id: "brands" as Tab, label: "Brands", icon: Building2 },
     { id: "experience" as Tab, label: "Experience", icon: Briefcase },
     { id: "contact" as Tab, label: "Contact", icon: MessageSquare },
   ];
@@ -101,6 +103,7 @@ const Admin = () => {
           {activeTab === "hero" && <HeroEditor />}
           {activeTab === "about" && <AboutEditor />}
           {activeTab === "skills" && <SkillsEditor />}
+          {activeTab === "brands" && <BrandsEditor />}
           {activeTab === "experience" && <ExperienceEditor />}
           {activeTab === "contact" && <ContactEditor />}
         </div>
