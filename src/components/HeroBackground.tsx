@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useCustomizationsContext } from "@/contexts/CustomizationsContext";
+import { hexToHsl, COLOR_PRESETS } from "@/hooks/useCustomizations";
 
 interface Particle {
   id: number;
@@ -7,7 +9,7 @@ interface Particle {
   size: number;
   speedY: number;
   opacity: number;
-  hue: number;
+  colorIndex: number; // 0 = primary, 1 = accent, 2 = secondary
 }
 
 const HeroBackground = () => {
@@ -17,6 +19,27 @@ const HeroBackground = () => {
   const particleIdRef = useRef(0);
   const rafRef = useRef<number>();
   const lastSpawnRef = useRef(0);
+  
+  const { colors } = useCustomizationsContext();
+  
+  // Get theme colors
+  const getThemeColors = () => {
+    if (!colors) return { primary: { h: 220, s: 90, l: 56 }, accent: { h: 260, s: 80, l: 60 }, secondary: { h: 190, s: 90, l: 50 } };
+    
+    let colorValues = colors;
+    if (colors.usePreset && colors.preset) {
+      const preset = COLOR_PRESETS[colors.preset as keyof typeof COLOR_PRESETS];
+      if (preset) colorValues = { ...colors, ...preset };
+    }
+    
+    return {
+      primary: hexToHsl(colorValues.primaryColor),
+      accent: hexToHsl(colorValues.accentColor),
+      secondary: hexToHsl(colorValues.secondaryColor),
+    };
+  };
+  
+  const themeColors = getThemeColors();
 
   // Handle mouse movement
   useEffect(() => {
@@ -43,7 +66,7 @@ const HeroBackground = () => {
         size: 2 + Math.random() * 4,
         speedY: 0.3 + Math.random() * 0.5,
         opacity: 0.3 + Math.random() * 0.4,
-        hue: 200 + Math.random() * 60, // Blue to purple range
+        colorIndex: Math.floor(Math.random() * 3), // Randomly pick primary, accent, or secondary
       };
     };
 
@@ -119,16 +142,20 @@ const HeroBackground = () => {
 
       {/* Floating particles (rising like revenue growth) */}
       <svg className="absolute inset-0 w-full h-full">
-        {particles.map((p) => (
-          <circle
-            key={p.id}
-            cx={`${p.x}%`}
-            cy={`${p.y}%`}
-            r={p.size}
-            fill={`hsla(${p.hue}, 80%, 60%, ${p.opacity})`}
-            className="transition-all duration-100"
-          />
-        ))}
+        {particles.map((p) => {
+          const colorOptions = [themeColors.primary, themeColors.accent, themeColors.secondary];
+          const color = colorOptions[p.colorIndex];
+          return (
+            <circle
+              key={p.id}
+              cx={`${p.x}%`}
+              cy={`${p.y}%`}
+              r={p.size}
+              fill={`hsla(${color.h}, ${color.s}%, ${Math.min(color.l + 10, 70)}%, ${p.opacity})`}
+              className="transition-all duration-100"
+            />
+          );
+        })}
       </svg>
 
       {/* Ambient orbs */}
