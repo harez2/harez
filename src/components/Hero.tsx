@@ -1,5 +1,6 @@
 import { ArrowDown, Download } from "lucide-react";
 import { useSiteContent, HeroContent } from "@/hooks/useSiteContent";
+import HeroBackground from "./HeroBackground";
 
 const Hero = () => {
   const { data: content } = useSiteContent<HeroContent>("hero");
@@ -12,11 +13,8 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-grid opacity-40" />
-      <div className="absolute top-20 left-10 w-[500px] h-[500px] crystal-orb animate-float" />
-      <div className="absolute bottom-20 right-10 w-[400px] h-[400px] crystal-orb animate-float animation-delay-400" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] crystal-orb opacity-50" />
+      {/* Interactive background with mouse tracking */}
+      <HeroBackground />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
