@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import { useCustomizationsContext } from "@/contexts/CustomizationsContext";
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { navigation } = useCustomizationsContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,17 +16,22 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#skills", label: "Skills" },
-    { href: "#experience", label: "Experience" },
-    { href: "/blog", label: "Blog", isRoute: true },
-    { href: "#contact", label: "Contact" },
-  ];
+  // Use customized menu items or defaults
+  const menuItems = navigation?.menuItems || ["About", "Skills", "Experience", "Blog", "Contact"];
+  const logoText = navigation?.logoText || "HAB";
+  const showLogo = navigation?.showLogo ?? true;
+  const showThemeToggle = navigation?.showThemeToggle ?? true;
+  const stickyHeader = navigation?.stickyHeader ?? true;
+
+  const navLinks = menuItems.map((item) => ({
+    href: item.toLowerCase() === "blog" ? "/blog" : `#${item.toLowerCase()}`,
+    label: item,
+    isRoute: item.toLowerCase() === "blog",
+  }));
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`${stickyHeader ? "fixed" : "absolute"} top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-glass border-b border-border shadow-soft"
           : "bg-transparent"
@@ -32,12 +39,15 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          <a
-            href="#"
-            className="font-display text-xl font-bold text-foreground hover:text-primary transition-colors"
-          >
-            HAB<span className="text-gradient">.</span>
-          </a>
+          {showLogo && (
+            <a
+              href="#"
+              className="font-display text-xl font-bold text-foreground hover:text-primary transition-colors"
+            >
+              {logoText}<span className="text-gradient">.</span>
+            </a>
+          )}
+          {!showLogo && <div />}
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
@@ -60,7 +70,7 @@ const Navigation = () => {
                 </a>
               )
             )}
-            <ThemeToggle />
+            {showThemeToggle && <ThemeToggle />}
             <a
               href="#contact"
               className="px-5 py-2 bg-gradient-crystal text-primary-foreground font-body text-sm font-medium rounded-lg shadow-soft hover:shadow-crystal transition-all"
@@ -120,6 +130,11 @@ const Navigation = () => {
                   {link.label}
                 </a>
               )
+            )}
+            {showThemeToggle && (
+              <div className="py-2">
+                <ThemeToggle />
+              </div>
             )}
             <a
               href="#contact"
