@@ -4,7 +4,7 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import {
   Bold,
   Italic,
@@ -26,6 +26,8 @@ import {
   Redo,
   Code,
   Minus,
+  Upload,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -35,6 +37,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface RichTextEditorProps {
   value: string;
@@ -90,6 +100,9 @@ export const RichTextEditor = ({
   placeholder = "Start writing...",
   className,
 }: RichTextEditorProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -147,7 +160,7 @@ export const RichTextEditor = ({
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }, [editor]);
 
-  const addImage = useCallback(() => {
+  const addImageFromUrl = useCallback(() => {
     if (!editor) return;
     const url = window.prompt("Image URL");
 
@@ -155,6 +168,56 @@ export const RichTextEditor = ({
       editor.chain().focus().setImage({ src: url }).run();
     }
   }, [editor]);
+
+  const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be less than 5MB");
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `editor/${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("site-images")
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("site-images")
+        .getPublicUrl(fileName);
+
+      editor.chain().focus().setImage({ src: publicUrl }).run();
+      toast.success("Image uploaded successfully");
+    } catch (error: any) {
+      console.error("Upload error:", error);
+      toast.error(error.message || "Failed to upload image");
+    } finally {
+      setIsUploading(false);
+      // Reset input so same file can be uploaded again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  }, [editor]);
+
+  const triggerFileUpload = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
 
   if (!editor) {
     return (
@@ -321,9 +384,44 @@ export const RichTextEditor = ({
         >
           <LinkIcon className="h-4 w-4" />
         </MenuButton>
-        <MenuButton onClick={addImage} tooltip="Add Image">
-          <ImageIcon className="h-4 w-4" />
-        </MenuButton>
+
+        {/* Image dropdown with upload/URL options */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              disabled={isUploading}
+              className="h-8 w-8 p-0"
+            >
+              {isUploading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ImageIcon className="h-4 w-4" />
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem onClick={triggerFileUpload}>
+              <Upload className="h-4 w-4 mr-2" />
+              Upload Image
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={addImageFromUrl}>
+              <LinkIcon className="h-4 w-4 mr-2" />
+              Insert from URL
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileUpload}
+          className="hidden"
+        />
       </div>
 
       {/* Editor Content */}
