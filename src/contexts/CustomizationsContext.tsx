@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, ReactNode } from "react";
 import {
   useAllCustomizations,
   ColorSettings,
@@ -29,14 +29,12 @@ export const useCustomizationsContext = () => useContext(CustomizationsContext);
 
 export const CustomizationsProvider = ({ children }: { children: ReactNode }) => {
   const { data, isLoading } = useAllCustomizations();
-  const [applied, setApplied] = useState(false);
 
   useEffect(() => {
-    if (data && !applied) {
+    if (data) {
       applyCustomizations(data);
-      setApplied(true);
     }
-  }, [data, applied]);
+  }, [data]);
 
   const applyCustomizations = (customizations: {
     colors: ColorSettings;
@@ -57,17 +55,29 @@ export const CustomizationsProvider = ({ children }: { children: ReactNode }) =>
       }
     }
 
-    // Convert hex to HSL and apply as CSS variables
+    // Convert hex to HSL and apply DIRECTLY to Tailwind CSS variables
     const primaryHsl = hexToHsl(colorValues.primaryColor);
     const secondaryHsl = hexToHsl(colorValues.secondaryColor);
     const accentHsl = hexToHsl(colorValues.accentColor);
     const mutedHsl = hexToHsl(colorValues.mutedColor);
+    const foregroundHsl = hexToHsl(colorValues.foregroundColor);
+    const backgroundHsl = hexToHsl(colorValues.backgroundColor);
 
-    // Apply CSS custom properties for dynamic theming
-    root.style.setProperty("--dynamic-primary", `${primaryHsl.h}, ${primaryHsl.s}%, ${primaryHsl.l}%`);
-    root.style.setProperty("--dynamic-secondary", `${secondaryHsl.h}, ${secondaryHsl.s}%, ${secondaryHsl.l}%`);
-    root.style.setProperty("--dynamic-accent", `${accentHsl.h}, ${accentHsl.s}%, ${accentHsl.l}%`);
-    root.style.setProperty("--dynamic-muted", `${mutedHsl.h}, ${mutedHsl.s}%, ${mutedHsl.l}%`);
+    // Override the actual Tailwind CSS variables
+    root.style.setProperty("--primary", `${primaryHsl.h} ${primaryHsl.s}% ${primaryHsl.l}%`);
+    root.style.setProperty("--primary-foreground", `${backgroundHsl.h} ${backgroundHsl.s}% ${Math.min(backgroundHsl.l + 95, 100)}%`);
+    root.style.setProperty("--secondary", `${secondaryHsl.h} ${secondaryHsl.s}% ${secondaryHsl.l}%`);
+    root.style.setProperty("--accent", `${accentHsl.h} ${accentHsl.s}% ${accentHsl.l}%`);
+    root.style.setProperty("--muted", `${mutedHsl.h} ${mutedHsl.s}% ${mutedHsl.l}%`);
+    root.style.setProperty("--muted-foreground", `${mutedHsl.h} ${Math.max(mutedHsl.s - 20, 0)}% ${mutedHsl.l}%`);
+    root.style.setProperty("--foreground", `${foregroundHsl.h} ${foregroundHsl.s}% ${foregroundHsl.l}%`);
+    root.style.setProperty("--background", `${backgroundHsl.h} ${backgroundHsl.s}% ${backgroundHsl.l}%`);
+    
+    // Update gradient variables
+    root.style.setProperty(
+      "--gradient-crystal", 
+      `linear-gradient(135deg, hsl(${primaryHsl.h}, ${primaryHsl.s}%, ${primaryHsl.l}%), hsl(${secondaryHsl.h}, ${secondaryHsl.s}%, ${secondaryHsl.l}%))`
+    );
 
     // Apply typography
     const typography = customizations.typography;
@@ -75,26 +85,24 @@ export const CustomizationsProvider = ({ children }: { children: ReactNode }) =>
     // Load Google Fonts dynamically
     const fontsToLoad = [typography.headingFont, typography.bodyFont];
     const fontLink = document.getElementById("dynamic-fonts") as HTMLLinkElement;
+    const fontUrl = `https://fonts.googleapis.com/css2?family=${fontsToLoad
+      .map((f) => f.replace(/\s+/g, "+") + ":wght@300;400;500;600;700;800")
+      .join("&family=")}&display=swap`;
     
     if (!fontLink) {
       const link = document.createElement("link");
       link.id = "dynamic-fonts";
       link.rel = "stylesheet";
-      link.href = `https://fonts.googleapis.com/css2?family=${fontsToLoad
-        .map((f) => f.replace(/\s+/g, "+") + ":wght@300;400;500;600;700;800")
-        .join("&family=")}&display=swap`;
+      link.href = fontUrl;
       document.head.appendChild(link);
     } else {
-      fontLink.href = `https://fonts.googleapis.com/css2?family=${fontsToLoad
-        .map((f) => f.replace(/\s+/g, "+") + ":wght@300;400;500;600;700;800")
-        .join("&family=")}&display=swap`;
+      fontLink.href = fontUrl;
     }
 
-    root.style.setProperty("--font-heading", typography.headingFont);
-    root.style.setProperty("--font-body", typography.bodyFont);
-    root.style.setProperty("--font-size-base", `${typography.baseFontSize}px`);
-    root.style.setProperty("--font-weight-heading", typography.headingWeight);
-    root.style.setProperty("--font-weight-body", typography.bodyWeight);
+    // Update font family CSS variables
+    root.style.setProperty("--font-display", `"${typography.headingFont}", sans-serif`);
+    root.style.setProperty("--font-body", `"${typography.bodyFont}", sans-serif`);
+    root.style.fontSize = `${typography.baseFontSize}px`;
 
     // Apply layout
     const layout = customizations.layout;
