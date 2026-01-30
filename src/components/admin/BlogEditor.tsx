@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   Plus,
@@ -11,7 +11,7 @@ import {
   FileText,
   Briefcase,
 } from "lucide-react";
-import { Editor } from "@tinymce/tinymce-react";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -39,7 +39,6 @@ const BlogEditor = () => {
   const [mode, setMode] = useState<EditorMode>("list");
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [uploading, setUploading] = useState(false);
-  const editorRef = useRef<any>(null);
 
   // Form state
   const [formData, setFormData] = useState<Partial<BlogPostInsert>>({
@@ -387,51 +386,14 @@ const BlogEditor = () => {
             />
           </div>
 
-          {/* Content - TinyMCE Editor */}
+          {/* Content - Rich Text Editor */}
           <div className="space-y-2">
             <Label>Content</Label>
-            <div className="border border-border rounded-lg overflow-hidden">
-              <Editor
-                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                value={formData.content || ""}
-                onEditorChange={handleEditorChange}
-                init={{
-                  height: 500,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | blocks | " +
-                    "bold italic forecolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "link image media | removeformat | code | help",
-                  content_style:
-                    "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; font-size: 16px; line-height: 1.6; }",
-                  skin: "oxide",
-                  content_css: "default",
-                  branding: false,
-                  promotion: false,
-                }}
-              />
-            </div>
+            <RichTextEditor
+              value={formData.content || ""}
+              onChange={handleEditorChange}
+              placeholder="Write your blog post content here..."
+            />
             <p className="text-xs text-muted-foreground">
               Use the toolbar above to format your content with headings, lists, images, and more.
             </p>
