@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, ReactNode } from "react";
+import { useTheme } from "next-themes";
 import {
   useAllCustomizations,
   ColorSettings,
@@ -29,19 +30,23 @@ export const useCustomizationsContext = () => useContext(CustomizationsContext);
 
 export const CustomizationsProvider = ({ children }: { children: ReactNode }) => {
   const { data, isLoading } = useAllCustomizations();
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (data) {
-      applyCustomizations(data);
+      applyCustomizations(data, resolvedTheme === "dark");
     }
-  }, [data]);
+  }, [data, resolvedTheme]);
 
-  const applyCustomizations = (customizations: {
-    colors: ColorSettings;
-    typography: TypographySettings;
-    layout: LayoutSettings;
-    navigation: NavigationSettings;
-  }) => {
+  const applyCustomizations = (
+    customizations: {
+      colors: ColorSettings;
+      typography: TypographySettings;
+      layout: LayoutSettings;
+      navigation: NavigationSettings;
+    },
+    isDark: boolean
+  ) => {
     const root = document.documentElement;
 
     // Apply colors
@@ -55,7 +60,7 @@ export const CustomizationsProvider = ({ children }: { children: ReactNode }) =>
       }
     }
 
-    // Convert hex to HSL and apply DIRECTLY to Tailwind CSS variables
+    // Convert hex to HSL
     const primaryHsl = hexToHsl(colorValues.primaryColor);
     const secondaryHsl = hexToHsl(colorValues.secondaryColor);
     const accentHsl = hexToHsl(colorValues.accentColor);
@@ -63,20 +68,59 @@ export const CustomizationsProvider = ({ children }: { children: ReactNode }) =>
     const foregroundHsl = hexToHsl(colorValues.foregroundColor);
     const backgroundHsl = hexToHsl(colorValues.backgroundColor);
 
-    // Override the actual Tailwind CSS variables
-    root.style.setProperty("--primary", `${primaryHsl.h} ${primaryHsl.s}% ${primaryHsl.l}%`);
-    root.style.setProperty("--primary-foreground", `${backgroundHsl.h} ${backgroundHsl.s}% ${Math.min(backgroundHsl.l + 95, 100)}%`);
-    root.style.setProperty("--secondary", `${secondaryHsl.h} ${secondaryHsl.s}% ${secondaryHsl.l}%`);
-    root.style.setProperty("--accent", `${accentHsl.h} ${accentHsl.s}% ${accentHsl.l}%`);
-    root.style.setProperty("--muted", `${mutedHsl.h} ${mutedHsl.s}% ${mutedHsl.l}%`);
-    root.style.setProperty("--muted-foreground", `${mutedHsl.h} ${Math.max(mutedHsl.s - 20, 0)}% ${mutedHsl.l}%`);
-    root.style.setProperty("--foreground", `${foregroundHsl.h} ${foregroundHsl.s}% ${foregroundHsl.l}%`);
-    root.style.setProperty("--background", `${backgroundHsl.h} ${backgroundHsl.s}% ${backgroundHsl.l}%`);
+    // Calculate dark mode variants - invert lightness for bg/fg
+    const darkBgHsl = { h: backgroundHsl.h, s: Math.min(backgroundHsl.s + 5, 30), l: Math.max(8, 100 - backgroundHsl.l) };
+    const darkFgHsl = { h: foregroundHsl.h, s: Math.max(foregroundHsl.s - 10, 10), l: Math.min(95, 100 - foregroundHsl.l + 80) };
+    const darkMutedHsl = { h: mutedHsl.h, s: Math.max(mutedHsl.s - 15, 5), l: 55 };
+    const darkPrimaryHsl = { h: primaryHsl.h, s: primaryHsl.s, l: Math.min(primaryHsl.l + 5, 65) };
+    const darkSecondaryHsl = { h: secondaryHsl.h, s: Math.max(secondaryHsl.s - 10, 10), l: 18 };
+    const darkAccentHsl = { h: accentHsl.h, s: accentHsl.s, l: Math.min(accentHsl.l + 5, 65) };
+
+    // Apply based on current theme
+    if (isDark) {
+      root.style.setProperty("--primary", `${darkPrimaryHsl.h} ${darkPrimaryHsl.s}% ${darkPrimaryHsl.l}%`);
+      root.style.setProperty("--primary-foreground", `${darkBgHsl.h} ${darkBgHsl.s}% ${darkBgHsl.l}%`);
+      root.style.setProperty("--secondary", `${darkSecondaryHsl.h} ${darkSecondaryHsl.s}% ${darkSecondaryHsl.l}%`);
+      root.style.setProperty("--secondary-foreground", `${darkFgHsl.h} ${darkFgHsl.s}% ${darkFgHsl.l}%`);
+      root.style.setProperty("--accent", `${darkAccentHsl.h} ${darkAccentHsl.s}% ${darkAccentHsl.l}%`);
+      root.style.setProperty("--accent-foreground", `${darkBgHsl.h} ${darkBgHsl.s}% ${darkBgHsl.l}%`);
+      root.style.setProperty("--muted", `${darkBgHsl.h} ${darkBgHsl.s}% 20%`);
+      root.style.setProperty("--muted-foreground", `${darkMutedHsl.h} ${darkMutedHsl.s}% ${darkMutedHsl.l}%`);
+      root.style.setProperty("--foreground", `${darkFgHsl.h} ${darkFgHsl.s}% ${darkFgHsl.l}%`);
+      root.style.setProperty("--background", `${darkBgHsl.h} ${darkBgHsl.s}% ${darkBgHsl.l}%`);
+      root.style.setProperty("--card", `${darkBgHsl.h} ${darkBgHsl.s}% 12%`);
+      root.style.setProperty("--card-foreground", `${darkFgHsl.h} ${darkFgHsl.s}% ${darkFgHsl.l}%`);
+      root.style.setProperty("--popover", `${darkBgHsl.h} ${darkBgHsl.s}% 12%`);
+      root.style.setProperty("--popover-foreground", `${darkFgHsl.h} ${darkFgHsl.s}% ${darkFgHsl.l}%`);
+      root.style.setProperty("--border", `${darkBgHsl.h} ${darkBgHsl.s}% 20%`);
+      root.style.setProperty("--input", `${darkBgHsl.h} ${darkBgHsl.s}% 20%`);
+      root.style.setProperty("--ring", `${darkPrimaryHsl.h} ${darkPrimaryHsl.s}% ${darkPrimaryHsl.l}%`);
+    } else {
+      root.style.setProperty("--primary", `${primaryHsl.h} ${primaryHsl.s}% ${primaryHsl.l}%`);
+      root.style.setProperty("--primary-foreground", `0 0% 100%`);
+      root.style.setProperty("--secondary", `${secondaryHsl.h} ${Math.max(secondaryHsl.s - 70, 15)}% 94%`);
+      root.style.setProperty("--secondary-foreground", `${foregroundHsl.h} ${foregroundHsl.s}% ${foregroundHsl.l}%`);
+      root.style.setProperty("--accent", `${accentHsl.h} ${accentHsl.s}% ${accentHsl.l}%`);
+      root.style.setProperty("--accent-foreground", `0 0% 100%`);
+      root.style.setProperty("--muted", `${backgroundHsl.h} ${Math.max(backgroundHsl.s - 5, 10)}% 92%`);
+      root.style.setProperty("--muted-foreground", `${mutedHsl.h} ${mutedHsl.s}% ${mutedHsl.l}%`);
+      root.style.setProperty("--foreground", `${foregroundHsl.h} ${foregroundHsl.s}% ${foregroundHsl.l}%`);
+      root.style.setProperty("--background", `${backgroundHsl.h} ${backgroundHsl.s}% ${backgroundHsl.l}%`);
+      root.style.setProperty("--card", `0 0% 100%`);
+      root.style.setProperty("--card-foreground", `${foregroundHsl.h} ${foregroundHsl.s}% ${foregroundHsl.l}%`);
+      root.style.setProperty("--popover", `0 0% 100%`);
+      root.style.setProperty("--popover-foreground", `${foregroundHsl.h} ${foregroundHsl.s}% ${foregroundHsl.l}%`);
+      root.style.setProperty("--border", `${backgroundHsl.h} ${Math.max(backgroundHsl.s - 5, 10)}% 90%`);
+      root.style.setProperty("--input", `${backgroundHsl.h} ${Math.max(backgroundHsl.s - 5, 10)}% 90%`);
+      root.style.setProperty("--ring", `${primaryHsl.h} ${primaryHsl.s}% ${primaryHsl.l}%`);
+    }
     
     // Update gradient variables
+    const gradientPrimary = isDark ? darkPrimaryHsl : primaryHsl;
+    const gradientSecondary = isDark ? darkSecondaryHsl : secondaryHsl;
     root.style.setProperty(
       "--gradient-crystal", 
-      `linear-gradient(135deg, hsl(${primaryHsl.h}, ${primaryHsl.s}%, ${primaryHsl.l}%), hsl(${secondaryHsl.h}, ${secondaryHsl.s}%, ${secondaryHsl.l}%))`
+      `linear-gradient(135deg, hsl(${gradientPrimary.h}, ${gradientPrimary.s}%, ${gradientPrimary.l}%), hsl(${gradientSecondary.h}, ${gradientSecondary.s}%, ${Math.min(gradientSecondary.l + 20, 60)}%))`
     );
 
     // Apply typography
