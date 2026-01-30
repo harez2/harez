@@ -8,8 +8,20 @@ import Experience from "@/components/Experience";
 import BlogPreview from "@/components/BlogPreview";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { useCustomizationsContext } from "@/contexts/CustomizationsContext";
 
 const Index = () => {
+  const { layout } = useCustomizationsContext();
+
+  // Default to showing all sections if layout hasn't loaded
+  const showHero = layout?.showHero ?? true;
+  const showAbout = layout?.showAbout ?? true;
+  const showSkills = layout?.showSkills ?? true;
+  const showBrands = layout?.showBrands ?? true;
+  const showExperience = layout?.showExperience ?? true;
+  const showBlog = layout?.showBlog ?? true;
+  const showContact = layout?.showContact ?? true;
+
   return (
     <>
       <Helmet>
@@ -24,13 +36,13 @@ const Index = () => {
       
       <main className="overflow-hidden">
         <Navigation />
-        <Hero />
-        <About />
-        <Skills />
-        <Brands />
-        <Experience />
-        <BlogPreview />
-        <Contact />
+        {showHero && <Hero />}
+        {showAbout && <About />}
+        {showSkills && <Skills />}
+        {showBrands && <Brands />}
+        {showExperience && <Experience />}
+        {showBlog && <BlogPreview />}
+        {showContact && <Contact />}
         <Footer />
       </main>
     </>

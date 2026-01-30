@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings } from "lucide-react";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
@@ -10,8 +10,9 @@ import ExperienceEditor from "@/components/admin/ExperienceEditor";
 import ContactEditor from "@/components/admin/ContactEditor";
 import BrandsEditor from "@/components/admin/BrandsEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
+import CustomizationsEditor from "@/components/admin/CustomizationsEditor";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "blog" | "contact";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "blog" | "contact" | "customizations";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -48,6 +49,7 @@ const Admin = () => {
     { id: "experience" as Tab, label: "Experience", icon: Briefcase },
     { id: "blog" as Tab, label: "Blog", icon: PenSquare },
     { id: "contact" as Tab, label: "Contact", icon: MessageSquare },
+    { id: "customizations" as Tab, label: "Customize", icon: Settings },
   ];
 
   return (
@@ -109,6 +111,7 @@ const Admin = () => {
           {activeTab === "experience" && <ExperienceEditor />}
           {activeTab === "blog" && <BlogEditor />}
           {activeTab === "contact" && <ContactEditor />}
+          {activeTab === "customizations" && <CustomizationsEditor />}
         </div>
       </div>
     </div>
