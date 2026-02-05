@@ -1,7 +1,28 @@
 import { useState } from "react";
 import { useSkills, useCreateSkill, useUpdateSkill, useDeleteSkill, Skill } from "@/hooks/useSiteContent";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Save, X } from "lucide-react";
+import { Loader2, Plus, Trash2, Save, X, icons } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// Common icons for skills - subset of lucide icons
+const COMMON_ICONS = [
+  "target", "trending-up", "bar-chart-3", "search", "mail", "users",
+  "facebook", "chrome", "video", "shopping-cart", "megaphone", "zap",
+  "globe", "link", "share-2", "mouse-pointer-click", "dollar-sign",
+  "pie-chart", "line-chart", "activity", "gauge", "tag", "layers",
+  "git-branch", "code", "database", "server", "cloud", "smartphone",
+  "monitor", "palette", "pen-tool", "image", "file-text", "calendar",
+  "clock", "map-pin", "heart", "star", "award", "briefcase",
+  "lightbulb", "rocket", "settings", "shield", "lock", "key",
+] as const;
 
 const SkillsEditor = () => {
   const { data: skills, isLoading } = useSkills();
@@ -9,8 +30,9 @@ const SkillsEditor = () => {
   const updateSkill = useUpdateSkill();
   const deleteSkill = useDeleteSkill();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingSkill, setEditingSkill] = useState<Partial<Skill>>({});
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newSkill, setNewSkill] = useState({ name: "", category: "", display_order: 0 });
+  const [newSkill, setNewSkill] = useState({ name: "", category: "", icon: "", display_order: 0 });
 
   const handleCreate = async () => {
     if (!newSkill.name.trim() || !newSkill.category.trim()) {
@@ -22,21 +44,38 @@ const SkillsEditor = () => {
       await createSkill.mutateAsync({
         name: newSkill.name,
         category: newSkill.category,
+        icon: newSkill.icon || null,
         display_order: skills?.length ?? 0,
       });
       toast.success("Skill added!");
-      setNewSkill({ name: "", category: "", display_order: 0 });
+      setNewSkill({ name: "", category: "", icon: "", display_order: 0 });
       setShowAddForm(false);
     } catch (error) {
       toast.error("Failed to add skill");
     }
   };
 
-  const handleUpdate = async (skill: Skill) => {
+  const handleStartEdit = (skill: Skill) => {
+    setEditingId(skill.id);
+    setEditingSkill(skill);
+  };
+
+  const handleUpdate = async () => {
+    if (!editingId || !editingSkill.name?.trim()) {
+      toast.error("Skill name is required");
+      return;
+    }
+
     try {
-      await updateSkill.mutateAsync(skill);
+      await updateSkill.mutateAsync({
+        id: editingId,
+        name: editingSkill.name,
+        category: editingSkill.category,
+        icon: editingSkill.icon || null,
+      });
       toast.success("Skill updated!");
       setEditingId(null);
+      setEditingSkill({});
     } catch (error) {
       toast.error("Failed to update skill");
     }
@@ -51,6 +90,16 @@ const SkillsEditor = () => {
     } catch (error) {
       toast.error("Failed to delete skill");
     }
+  };
+
+  const renderIcon = (iconName: string | null | undefined) => {
+    if (!iconName) return null;
+    const pascalName = iconName
+      .split("-")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join("");
+    const IconComponent = icons[pascalName as keyof typeof icons];
+    return IconComponent ? <IconComponent className="w-4 h-4" /> : null;
   };
 
   if (isLoading) {
@@ -90,27 +139,58 @@ const SkillsEditor = () => {
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              value={newSkill.name}
-              onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
-              className="px-3 py-2 bg-background border border-border rounded-lg font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
-              placeholder="Skill name"
-            />
-            <input
-              type="text"
-              value={newSkill.category}
-              onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
-              className="px-3 py-2 bg-background border border-border rounded-lg font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
-              placeholder="Category"
-              list="categories"
-            />
-            <datalist id="categories">
-              {categories.map((cat) => (
-                <option key={cat} value={cat} />
-              ))}
-            </datalist>
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <Label className="text-xs mb-1.5 block">Skill Name</Label>
+              <Input
+                value={newSkill.name}
+                onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
+                placeholder="e.g., Facebook Ads"
+              />
+            </div>
+            <div>
+              <Label className="text-xs mb-1.5 block">Category</Label>
+              <Input
+                value={newSkill.category}
+                onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
+                placeholder="e.g., Advertising Platforms"
+                list="categories"
+              />
+              <datalist id="categories">
+                {categories.map((cat) => (
+                  <option key={cat} value={cat} />
+                ))}
+              </datalist>
+            </div>
+            <div>
+              <Label className="text-xs mb-1.5 block">Icon (optional)</Label>
+              <Select
+                value={newSkill.icon}
+                onValueChange={(value) => setNewSkill({ ...newSkill, icon: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select icon">
+                    {newSkill.icon && (
+                      <span className="flex items-center gap-2">
+                        {renderIcon(newSkill.icon)}
+                        {newSkill.icon}
+                      </span>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent className="max-h-60">
+                  <SelectItem value="">None</SelectItem>
+                  {COMMON_ICONS.map((icon) => (
+                    <SelectItem key={icon} value={icon}>
+                      <span className="flex items-center gap-2">
+                        {renderIcon(icon)}
+                        {icon}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <button
             onClick={handleCreate}
@@ -138,29 +218,71 @@ const SkillsEditor = () => {
                   className="flex items-center justify-between bg-secondary/30 border border-border rounded-lg px-4 py-3"
                 >
                   {editingId === skill.id ? (
-                    <div className="flex-1 flex items-center gap-3">
-                      <input
-                        type="text"
-                        defaultValue={skill.name}
-                        onBlur={(e) =>
-                          handleUpdate({ ...skill, name: e.target.value })
-                        }
-                        className="flex-1 px-2 py-1 bg-background border border-border rounded font-body text-sm text-foreground focus:outline-none focus:border-primary"
-                        autoFocus
-                      />
-                      <button
-                        onClick={() => setEditingId(null)}
-                        className="text-muted-foreground hover:text-foreground"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+                      <div>
+                        <Label className="text-xs mb-1 block">Name</Label>
+                        <Input
+                          value={editingSkill.name || ""}
+                          onChange={(e) => setEditingSkill({ ...editingSkill, name: e.target.value })}
+                          autoFocus
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs mb-1 block">Icon</Label>
+                        <Select
+                          value={editingSkill.icon || ""}
+                          onValueChange={(value) => setEditingSkill({ ...editingSkill, icon: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select icon">
+                              {editingSkill.icon && (
+                                <span className="flex items-center gap-2">
+                                  {renderIcon(editingSkill.icon)}
+                                  {editingSkill.icon}
+                                </span>
+                              )}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent className="max-h-60">
+                            <SelectItem value="">None</SelectItem>
+                            {COMMON_ICONS.map((icon) => (
+                              <SelectItem key={icon} value={icon}>
+                                <span className="flex items-center gap-2">
+                                  {renderIcon(icon)}
+                                  {icon}
+                                </span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleUpdate}
+                          disabled={updateSkill.isPending}
+                          className="px-3 py-2 bg-primary text-primary-foreground text-sm rounded-lg flex items-center gap-1"
+                        >
+                          {updateSkill.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                          Save
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditingId(null);
+                            setEditingSkill({});
+                          }}
+                          className="px-3 py-2 bg-secondary text-foreground text-sm rounded-lg"
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <>
                       <span
-                        className="font-body text-sm text-foreground cursor-pointer hover:text-primary"
-                        onClick={() => setEditingId(skill.id)}
+                        className="font-body text-sm text-foreground cursor-pointer hover:text-primary flex items-center gap-2"
+                        onClick={() => handleStartEdit(skill)}
                       >
+                        {skill.icon && renderIcon(skill.icon)}
                         {skill.name}
                       </span>
                       <button
