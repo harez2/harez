@@ -1,27 +1,10 @@
 import { Briefcase, GraduationCap } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
-import { useExperience } from "@/hooks/useSiteContent";
-
-const education = [
-  {
-    degree: "MBA in Marketing",
-    institution: "IBA - Jahangirnagar University",
-    period: "2022 – Present",
-  },
-  {
-    degree: "M.Sc. in Mathematics",
-    institution: "National University",
-    period: "2019",
-  },
-  {
-    degree: "B.Sc. in Mathematics",
-    institution: "National University",
-    period: "2018",
-  },
-];
+import { useExperience, useEducation } from "@/hooks/useSiteContent";
 
 const Experience = () => {
   const { data: experiences } = useExperience();
+  const { data: education } = useEducation();
 
   return (
     <section id="experience" className="py-24 lg:py-32">

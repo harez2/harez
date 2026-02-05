@@ -7,12 +7,13 @@ import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
 import ExperienceEditor from "@/components/admin/ExperienceEditor";
+import EducationEditor from "@/components/admin/EducationEditor";
 import ContactEditor from "@/components/admin/ContactEditor";
 import BrandsEditor from "@/components/admin/BrandsEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import CustomizationsEditor from "@/components/admin/CustomizationsEditor";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "blog" | "contact" | "customizations";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -47,6 +48,7 @@ const Admin = () => {
     { id: "skills" as Tab, label: "Skills", icon: GraduationCap },
     { id: "brands" as Tab, label: "Brands", icon: Building2 },
     { id: "experience" as Tab, label: "Experience", icon: Briefcase },
+    { id: "education" as Tab, label: "Education", icon: GraduationCap },
     { id: "blog" as Tab, label: "Blog", icon: PenSquare },
     { id: "contact" as Tab, label: "Contact", icon: MessageSquare },
     { id: "customizations" as Tab, label: "Customize", icon: Settings },
@@ -109,6 +111,7 @@ const Admin = () => {
           {activeTab === "skills" && <SkillsEditor />}
           {activeTab === "brands" && <BrandsEditor />}
           {activeTab === "experience" && <ExperienceEditor />}
+          {activeTab === "education" && <EducationEditor />}
           {activeTab === "blog" && <BlogEditor />}
           {activeTab === "contact" && <ContactEditor />}
           {activeTab === "customizations" && <CustomizationsEditor />}
