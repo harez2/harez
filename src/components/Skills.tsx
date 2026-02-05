@@ -1,4 +1,6 @@
-import { Target, TrendingUp, BarChart3, Search, Mail, Users, LucideIcon } from "lucide-react";
+import { Target, TrendingUp, BarChart3, Search, Mail, Users, LucideIcon, icons } from "lucide-react";
+import { lazy, Suspense } from "react";
+import dynamicIconImports from "lucide-react/dynamicIconImports";
 import ScrollReveal from "./ScrollReveal";
 import { useSkills, Skill } from "@/hooks/useSiteContent";
 
@@ -9,6 +11,20 @@ const categoryIcons: Record<string, LucideIcon> = {
   "SEO": Search,
   "Email": Mail,
   "Leadership": Users,
+};
+
+// Dynamic icon component for skill icons
+const DynamicIcon = ({ name, className }: { name: string; className?: string }) => {
+  const iconName = name as keyof typeof dynamicIconImports;
+  if (!dynamicIconImports[iconName]) {
+    return null;
+  }
+  const LucideIcon = lazy(dynamicIconImports[iconName]);
+  return (
+    <Suspense fallback={<div className="w-3.5 h-3.5" />}>
+      <LucideIcon className={className} />
+    </Suspense>
+  );
 };
 
 const categoryDescriptions: Record<string, string> = {
@@ -77,8 +93,9 @@ const Skills = () => {
                     {categorySkills.map((skill) => (
                       <span
                         key={skill.id}
-                        className="font-body text-xs px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground"
+                        className="font-body text-xs px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground flex items-center gap-1.5"
                       >
+                        {skill.icon && <DynamicIcon name={skill.icon} className="w-3.5 h-3.5" />}
                         {skill.name}
                       </span>
                     ))}
