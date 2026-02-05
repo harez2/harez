@@ -38,6 +38,14 @@ export interface Experience {
   display_order: number;
 }
 
+export interface Education {
+  id: string;
+  degree: string;
+  institution: string;
+  period: string;
+  display_order: number;
+}
+
 export interface Brand {
   id: string;
   name: string;
@@ -198,6 +206,69 @@ export const useDeleteExperience = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["experience"] });
+    },
+  });
+};
+
+// ============ Education Hooks ============
+
+export const useEducation = () => {
+  return useQuery({
+    queryKey: ["education"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("education")
+        .select("*")
+        .order("display_order");
+
+      if (error) throw error;
+      return data as Education[];
+    },
+  });
+};
+
+export const useCreateEducation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (edu: Omit<Education, "id">) => {
+      const { error } = await supabase.from("education").insert(edu);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["education"] });
+    },
+  });
+};
+
+export const useUpdateEducation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (edu: Partial<Education> & { id: string }) => {
+      const { error } = await supabase
+        .from("education")
+        .update(edu)
+        .eq("id", edu.id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["education"] });
+    },
+  });
+};
+
+export const useDeleteEducation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("education").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["education"] });
     },
   });
 };
