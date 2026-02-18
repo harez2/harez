@@ -98,6 +98,179 @@ export type Database = {
         }
         Relationships: []
       }
+      consultation_bookings: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          client_email: string
+          client_name: string
+          client_phone: string
+          created_at: string
+          id: string
+          payment_method: string
+          slot_id: string
+          status: string
+          transaction_id: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount?: number
+          client_email: string
+          client_name: string
+          client_phone: string
+          created_at?: string
+          id?: string
+          payment_method: string
+          slot_id: string
+          status?: string
+          transaction_id: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          client_email?: string
+          client_name?: string
+          client_phone?: string
+          created_at?: string
+          id?: string
+          payment_method?: string
+          slot_id?: string
+          status?: string
+          transaction_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_bookings_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "consultation_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultation_content: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          section: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          id?: string
+          section: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          section?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      consultation_projects: {
+        Row: {
+          created_at: string
+          description: string
+          display_order: number
+          id: string
+          image_url: string | null
+          link: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      consultation_reviews: {
+        Row: {
+          client_company: string | null
+          client_name: string
+          client_photo: string | null
+          created_at: string
+          display_order: number
+          id: string
+          rating: number
+          review_text: string
+          updated_at: string
+        }
+        Insert: {
+          client_company?: string | null
+          client_name: string
+          client_photo?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          rating?: number
+          review_text: string
+          updated_at?: string
+        }
+        Update: {
+          client_company?: string | null
+          client_name?: string
+          client_photo?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          rating?: number
+          review_text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      consultation_slots: {
+        Row: {
+          created_at: string
+          date: string
+          end_time: string
+          id: string
+          is_available: boolean
+          start_time: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          end_time: string
+          id?: string
+          is_available?: boolean
+          start_time: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          end_time?: string
+          id?: string
+          is_available?: boolean
+          start_time?: string
+        }
+        Relationships: []
+      }
       education: {
         Row: {
           created_at: string
