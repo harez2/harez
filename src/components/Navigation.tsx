@@ -23,11 +23,12 @@ const Navigation = () => {
   const showThemeToggle = navigation?.showThemeToggle ?? true;
   const stickyHeader = navigation?.stickyHeader ?? true;
 
-  const navLinks = menuItems.map((item) => ({
-    href: item.toLowerCase() === "blog" ? "/blog" : `#${item.toLowerCase()}`,
-    label: item,
-    isRoute: item.toLowerCase() === "blog",
-  }));
+  const navLinks = menuItems.map((item) => {
+    const lower = item.toLowerCase();
+    const isRoute = lower === "blog" || lower === "1:1 session";
+    const href = lower === "blog" ? "/blog" : lower === "1:1 session" ? "/business-growth" : `#${lower}`;
+    return { href, label: item, isRoute };
+  });
 
   return (
     <nav

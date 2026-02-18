@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList } from "lucide-react";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
@@ -12,8 +12,13 @@ import ContactEditor from "@/components/admin/ContactEditor";
 import BrandsEditor from "@/components/admin/BrandsEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import CustomizationsEditor from "@/components/admin/CustomizationsEditor";
+import ConsultationContentEditor from "@/components/admin/ConsultationContentEditor";
+import ConsultationProjectsEditor from "@/components/admin/ConsultationProjectsEditor";
+import ConsultationReviewsEditor from "@/components/admin/ConsultationReviewsEditor";
+import ConsultationSlotsEditor from "@/components/admin/ConsultationSlotsEditor";
+import ConsultationBookingsManager from "@/components/admin/ConsultationBookingsManager";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -51,6 +56,9 @@ const Admin = () => {
     { id: "education" as Tab, label: "Education", icon: GraduationCap },
     { id: "blog" as Tab, label: "Blog", icon: PenSquare },
     { id: "contact" as Tab, label: "Contact", icon: MessageSquare },
+    { id: "consultation" as Tab, label: "Consultation", icon: Rocket },
+    { id: "slots" as Tab, label: "Slots", icon: Calendar },
+    { id: "bookings" as Tab, label: "Bookings", icon: ClipboardList },
     { id: "customizations" as Tab, label: "Customize", icon: Settings },
   ];
 
@@ -114,6 +122,17 @@ const Admin = () => {
           {activeTab === "education" && <EducationEditor />}
           {activeTab === "blog" && <BlogEditor />}
           {activeTab === "contact" && <ContactEditor />}
+          {activeTab === "consultation" && (
+            <div className="space-y-8">
+              <ConsultationContentEditor />
+              <hr className="border-border" />
+              <ConsultationProjectsEditor />
+              <hr className="border-border" />
+              <ConsultationReviewsEditor />
+            </div>
+          )}
+          {activeTab === "slots" && <ConsultationSlotsEditor />}
+          {activeTab === "bookings" && <ConsultationBookingsManager />}
           {activeTab === "customizations" && <CustomizationsEditor />}
         </div>
       </div>
