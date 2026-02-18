@@ -86,7 +86,7 @@ const Experience = () => {
             </ScrollReveal>
             
             <div className="space-y-4">
-              {education.map((edu, index) => (
+              {education?.map((edu, index) => (
                 <ScrollReveal key={index} delay={150 + index * 100}>
                   <div className="bg-card border border-border rounded-2xl p-5 hover:shadow-crystal hover:border-primary/30 transition-all duration-300">
                     <h4 className="font-display text-sm font-semibold text-foreground mb-1">
