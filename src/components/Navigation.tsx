@@ -17,7 +17,7 @@ const Navigation = () => {
   }, []);
 
   // Use customized menu items or defaults
-  const menuItems = navigation?.menuItems || ["About", "Skills", "Experience", "Blog", "Contact"];
+  const menuItems = navigation?.menuItems || ["About", "Skills", "Experience", "Blog", "1:1 Session", "Contact"];
   const logoText = navigation?.logoText || "HAB";
   const showLogo = navigation?.showLogo ?? true;
   const showThemeToggle = navigation?.showThemeToggle ?? true;
