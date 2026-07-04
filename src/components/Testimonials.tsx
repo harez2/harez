@@ -1,28 +1,38 @@
 import { Quote, Star } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
+import { useTestimonials } from "@/hooks/useContent";
 
-const TESTIMONIALS = [
+const FALLBACK = [
   {
+    id: "1",
     quote:
       "Harez turned our ad account from a cost center into our biggest growth channel. Every dollar is now accountable — and our ROAS 4x'd in one quarter.",
     author: "Ayesha R.",
     role: "Founder, Tahoor Studio",
+    rating: 5,
   },
   {
+    id: "2",
     quote:
       "We finally have a predictable pipeline. Sales knows exactly how many qualified conversations they'll get each week thanks to Harez's system.",
     author: "Rakib H.",
     role: "Head of Growth, Completo",
+    rating: 5,
   },
   {
+    id: "3",
     quote:
       "Strategic, sharp, and hands-on. Harez doesn't just run ads — he thinks like an owner and treats the P&L like his own.",
     author: "Nusrat J.",
     role: "Marketing Director, Light of Hope",
+    rating: 5,
   },
 ];
 
-const Testimonials = () => (
+const Testimonials = () => {
+  const { data } = useTestimonials();
+  const items = data && data.length > 0 ? data : FALLBACK;
+  return (
   <section id="testimonials" className="py-24 lg:py-32">
     <div className="container mx-auto px-6">
       <ScrollReveal>
@@ -40,12 +50,12 @@ const Testimonials = () => (
       </ScrollReveal>
 
       <div className="grid md:grid-cols-3 gap-6">
-        {TESTIMONIALS.map((t, i) => (
-          <ScrollReveal key={t.author} delay={i * 80}>
+        {items.map((t, i) => (
+          <ScrollReveal key={t.id} delay={i * 80}>
             <figure className="h-full p-8 rounded-2xl bg-card border border-border shadow-soft hover:shadow-crystal transition-all">
               <Quote className="w-8 h-8 text-primary/30 mb-4" />
-              <div className="flex gap-1 mb-4" aria-label="5 star rating">
-                {Array.from({ length: 5 }).map((_, idx) => (
+              <div className="flex gap-1 mb-4" aria-label={`${t.rating} star rating`}>
+                {Array.from({ length: t.rating }).map((_, idx) => (
                   <Star key={idx} className="w-4 h-4 fill-primary text-primary" />
                 ))}
               </div>
@@ -54,9 +64,11 @@ const Testimonials = () => (
               </blockquote>
               <figcaption>
                 <div className="font-display text-base">{t.author}</div>
-                <div className="font-body text-xs text-muted-foreground uppercase tracking-wider mt-1">
-                  {t.role}
-                </div>
+                {t.role && (
+                  <div className="font-body text-xs text-muted-foreground uppercase tracking-wider mt-1">
+                    {t.role}
+                  </div>
+                )}
               </figcaption>
             </figure>
           </ScrollReveal>
@@ -64,6 +76,7 @@ const Testimonials = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default Testimonials;

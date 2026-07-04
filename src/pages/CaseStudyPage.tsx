@@ -1,17 +1,25 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, ArrowRight, Check, Clock, Target, TrendingUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Clock, Target, TrendingUp, Loader2 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollReveal from "@/components/ScrollReveal";
-import { getCaseStudy, caseStudies } from "@/data/caseStudies";
+import { useCaseStudyBySlug, useCaseStudies } from "@/hooks/useContent";
 
 const CaseStudyPage = () => {
   const { slug = "" } = useParams();
-  const study = getCaseStudy(slug);
+  const { data: study, isLoading } = useCaseStudyBySlug(slug);
+  const { data: allStudies } = useCaseStudies();
 
+  if (isLoading) {
+    return (
+      <div className="min-h-dvh flex items-center justify-center">
+        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      </div>
+    );
+  }
   if (!study) return <Navigate to="/" replace />;
 
   const canonical = `https://harezalbaki.com/case-studies/${study.slug}`;
@@ -24,7 +32,7 @@ const CaseStudyPage = () => {
     mainEntityOfPage: canonical,
   };
 
-  const others = caseStudies.filter((c) => c.slug !== study.slug).slice(0, 3);
+  const others = (allStudies ?? []).filter((c) => c.slug !== study.slug).slice(0, 3);
 
   return (
     <>

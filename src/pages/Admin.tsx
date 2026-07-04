@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox, Quote, HelpCircle, Download, Trophy } from "lucide-react";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
@@ -18,8 +18,12 @@ import ConsultationReviewsEditor from "@/components/admin/ConsultationReviewsEdi
 import ConsultationSlotsEditor from "@/components/admin/ConsultationSlotsEditor";
 import ConsultationBookingsManager from "@/components/admin/ConsultationBookingsManager";
 import AuditRequestsManager from "@/components/admin/AuditRequestsManager";
+import TestimonialsEditor from "@/components/admin/TestimonialsEditor";
+import FaqsEditor from "@/components/admin/FaqsEditor";
+import ResourcesEditor from "@/components/admin/ResourcesEditor";
+import CaseStudiesEditor from "@/components/admin/CaseStudiesEditor";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads" | "testimonials" | "faqs" | "resources" | "case_studies";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -57,6 +61,10 @@ const Admin = () => {
     { id: "experience" as Tab, label: "Experience", icon: Briefcase },
     { id: "education" as Tab, label: "Education", icon: GraduationCap },
     { id: "blog" as Tab, label: "Blog", icon: PenSquare },
+    { id: "case_studies" as Tab, label: "Case Studies", icon: Trophy },
+    { id: "testimonials" as Tab, label: "Testimonials", icon: Quote },
+    { id: "faqs" as Tab, label: "FAQs", icon: HelpCircle },
+    { id: "resources" as Tab, label: "Resources", icon: Download },
     { id: "contact" as Tab, label: "Contact", icon: MessageSquare },
     { id: "consultation" as Tab, label: "Consultation", icon: Rocket },
     { id: "slots" as Tab, label: "Slots", icon: Calendar },
@@ -136,6 +144,10 @@ const Admin = () => {
           {activeTab === "slots" && <ConsultationSlotsEditor />}
           {activeTab === "bookings" && <ConsultationBookingsManager />}
           {activeTab === "leads" && <AuditRequestsManager />}
+          {activeTab === "testimonials" && <TestimonialsEditor />}
+          {activeTab === "faqs" && <FaqsEditor />}
+          {activeTab === "resources" && <ResourcesEditor />}
+          {activeTab === "case_studies" && <CaseStudiesEditor />}
           {activeTab === "customizations" && <CustomizationsEditor />}
         </div>
       </div>
