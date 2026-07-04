@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, ReactNode } from "react";
 import { useTheme } from "next-themes";
 import {
   useAllCustomizations,
@@ -28,17 +28,43 @@ const CustomizationsContext = createContext<CustomizationsContextType>({
 
 export const useCustomizationsContext = () => useContext(CustomizationsContext);
 
+const CACHE_KEY = "customizations-cache-v1";
+
 export const CustomizationsProvider = ({ children }: { children: ReactNode }) => {
   const { data, isLoading } = useAllCustomizations();
   const { resolvedTheme } = useTheme();
+  const appliedCacheRef = useRef(false);
+
+  // Apply cached customizations synchronously on first render to prevent
+  // a flash of the default (older) design before DB values load.
+  if (!appliedCacheRef.current && typeof window !== "undefined") {
+    appliedCacheRef.current = true;
+    try {
+      const cached = window.localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        const isDark =
+          document.documentElement.classList.contains("dark") ||
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        applyCustomizations(parsed, isDark);
+      }
+    } catch {
+      // ignore cache errors
+    }
+  }
 
   useEffect(() => {
     if (data) {
       applyCustomizations(data, resolvedTheme === "dark");
+      try {
+        window.localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+      } catch {
+        // ignore quota errors
+      }
     }
   }, [data, resolvedTheme]);
 
-  const applyCustomizations = (
+  function applyCustomizations(
     customizations: {
       colors: ColorSettings;
       typography: TypographySettings;
@@ -46,7 +72,7 @@ export const CustomizationsProvider = ({ children }: { children: ReactNode }) =>
       navigation: NavigationSettings;
     },
     isDark: boolean
-  ) => {
+  ) {
     const root = document.documentElement;
 
     // Apply colors
@@ -158,7 +184,7 @@ export const CustomizationsProvider = ({ children }: { children: ReactNode }) =>
     };
     root.style.setProperty("--container-max-width", layout.containerMaxWidth);
     root.style.setProperty("--section-spacing", spacingMap[layout.sectionSpacing] || "6rem");
-  };
+  }
 
   return (
     <CustomizationsContext.Provider
