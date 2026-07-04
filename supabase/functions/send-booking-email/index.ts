@@ -99,6 +99,39 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
+    // Prevent notification spam: new_booking may fire only once, within 10 min
+    // of the booking being created, and only if not already notified.
+    if (type === "new_booking") {
+      const createdMs = booking.created_at ? Date.parse(booking.created_at) : 0;
+      const ageMs = Date.now() - createdMs;
+      if (booking.notified_at || ageMs > 10 * 60 * 1000 || ageMs < 0) {
+        return new Response(
+          JSON.stringify({ error: "Notification not allowed for this booking" }),
+          {
+            status: 403,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+      // Atomically claim the notification slot.
+      const { data: claimed, error: claimErr } = await admin
+        .from("consultation_bookings")
+        .update({ notified_at: new Date().toISOString() })
+        .eq("id", bookingId)
+        .is("notified_at", null)
+        .select("id")
+        .maybeSingle();
+      if (claimErr || !claimed) {
+        return new Response(
+          JSON.stringify({ error: "Notification already sent" }),
+          {
+            status: 409,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+    }
+
     const slot = booking.consultation_slots || {};
     const slotDate = slot.date || "TBD";
     const slotTime = slot.start_time ? `${slot.start_time.slice(0, 5)} - ${slot.end_time.slice(0, 5)}` : "TBD";
