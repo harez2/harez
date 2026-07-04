@@ -1,7 +1,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "harezalbaki@gmail.com";
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const RATE_LIMIT_MAX = 3; // submissions per window
+const RATE_LIMIT_WINDOW_MIN = 60;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -30,6 +35,33 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limit by client IP (hashed) to prevent inbox spam.
+    const fwd = req.headers.get("x-forwarded-for") || "";
+    const ip = fwd.split(",")[0].trim() || "unknown";
+    const ipHashBuf = await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(ip)
+    );
+    const ipHash = Array.from(new Uint8Array(ipHashBuf))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    const admin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
+    const sinceIso = new Date(
+      Date.now() - RATE_LIMIT_WINDOW_MIN * 60 * 1000
+    ).toISOString();
+    const { count } = await admin
+      .from("contact_rate_limit")
+      .select("*", { count: "exact", head: true })
+      .eq("ip_hash", ipHash)
+      .gte("created_at", sinceIso);
+    if ((count ?? 0) >= RATE_LIMIT_MAX) {
+      return new Response(
+        JSON.stringify({ error: "Too many submissions. Please try again later." }),
+        { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
     const { name, email, message }: ContactRequest = await req.json();
 
     // Validate required fields
@@ -97,6 +129,9 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Email sent successfully:", data);
+
+    // Record submission for rate limiting.
+    await admin.from("contact_rate_limit").insert({ ip_hash: ipHash });
 
     return new Response(
       JSON.stringify({ success: true, message: "Email sent successfully" }),
