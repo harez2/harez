@@ -13,47 +13,50 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { trackLead } from "@/lib/analytics";
+import { useResources, getResourceSignedUrl, type Resource } from "@/hooks/useContent";
 
-interface Resource {
-  slug: string;
-  title: string;
-  description: string;
-  bullets: string[];
-  file: string;
-  badge: string;
-}
-
-const RESOURCES: Resource[] = [
+const FALLBACK: Resource[] = [
   {
+    id: "1",
     slug: "meta-ads-scaling-playbook",
     title: "The Meta Ads Scaling Playbook",
     description:
       "The exact framework I use to scale Meta ad accounts from $1K to $50K/month without breaking ROAS.",
     bullets: ["Account structure blueprint", "Creative testing framework", "Scaling decision tree"],
-    file: "/resources/meta-ads-scaling-playbook.pdf",
+    file_path: null,
     badge: "42-page PDF",
+    display_order: 10,
+    published: true,
   },
   {
+    id: "2",
     slug: "growth-audit-checklist",
     title: "The 47-Point Growth Audit Checklist",
     description:
       "The same checklist I run on every new client account — spot revenue leaks in tracking, funnel and creative.",
     bullets: ["Tracking & attribution", "Funnel & CRO", "Creative & messaging"],
-    file: "/resources/growth-audit-checklist.pdf",
+    file_path: null,
     badge: "Checklist",
+    display_order: 20,
+    published: true,
   },
   {
+    id: "3",
     slug: "google-ads-lead-gen-blueprint",
     title: "Google Ads Lead-Gen Blueprint",
     description:
       "Turn Google Ads into a predictable pipeline for B2B and high-ticket services with offline conversion tracking.",
     bullets: ["Keyword & intent map", "Landing page structure", "SQL feedback loop"],
-    file: "/resources/google-ads-lead-gen-blueprint.pdf",
+    file_path: null,
     badge: "Blueprint",
+    display_order: 30,
+    published: true,
   },
 ];
 
 const Resources = () => {
+  const { data } = useResources();
+  const items = data && data.length > 0 ? data : FALLBACK;
   const [active, setActive] = useState<Resource | null>(null);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -76,8 +79,19 @@ const Resources = () => {
       });
       if (error) throw error;
       trackLead(`resource:${active.slug}`);
-      toast.success("Download starting — check your email for extras.");
-      window.open(active.file, "_blank", "noopener,noreferrer");
+
+      if (active.file_path) {
+        try {
+          const url = await getResourceSignedUrl(active.file_path);
+          window.open(url, "_blank", "noopener,noreferrer");
+          toast.success("Download starting — check your email for extras.");
+        } catch {
+          toast.success("Request received — I'll email the PDF shortly.");
+        }
+      } else {
+        toast.success("Request received — I'll email the PDF shortly.");
+      }
+
       setActive(null);
       setEmail("");
       setName("");
@@ -107,8 +121,8 @@ const Resources = () => {
         </ScrollReveal>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {RESOURCES.map((r, i) => (
-            <ScrollReveal key={r.slug} delay={i * 80}>
+          {items.map((r, i) => (
+            <ScrollReveal key={r.id} delay={i * 80}>
               <article className="h-full flex flex-col p-8 rounded-2xl bg-card border border-border shadow-soft hover:shadow-crystal hover:-translate-y-1 transition-all">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5">
                   <FileText className="w-5 h-5 text-primary" />
