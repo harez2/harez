@@ -3,6 +3,7 @@ import { CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import ScrollReveal from "./ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
+import { trackLead } from "@/lib/analytics";
 
 const INCLUDES = [
   "Website audit",
@@ -48,6 +49,7 @@ const LeadMagnet = () => {
         monthly_ad_spend: form.monthly_ad_spend.trim() || null,
       });
       if (error) throw error;
+      trackLead("audit_form");
 
       // Notify via existing contact-email function (fire-and-forget).
       supabase.functions
