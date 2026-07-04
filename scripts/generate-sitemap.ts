@@ -25,6 +25,10 @@ const staticEntries: SitemapEntry[] = [
   { path: "/services/seo", changefreq: "monthly", priority: "0.9" },
   { path: "/services/cro", changefreq: "monthly", priority: "0.9" },
   { path: "/services/marketing-consulting", changefreq: "monthly", priority: "0.9" },
+  { path: "/case-studies/tahoor-studio", changefreq: "monthly", priority: "0.8" },
+  { path: "/case-studies/completo", changefreq: "monthly", priority: "0.8" },
+  { path: "/case-studies/light-of-hope", changefreq: "monthly", priority: "0.8" },
+  { path: "/case-studies/chhayatoru", changefreq: "monthly", priority: "0.8" },
 ];
 
 async function fetchRows(table: string, select: string, filter: string): Promise<any[]> {
