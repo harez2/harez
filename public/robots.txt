@@ -18,4 +18,4 @@ User-agent: *
 Allow: /
 Allow: /blog/
 
-Sitemap: https://harez.lovable.app/sitemap.xml
+Sitemap: https://harezalbaki.com/sitemap.xml

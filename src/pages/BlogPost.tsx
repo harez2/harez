@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Tag, Share2 } from "lucide-react";
 import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
 import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import BlogCard from "@/components/BlogCard";
@@ -104,8 +105,15 @@ const BlogPost = () => {
 
       <main className="pt-24 pb-20 min-h-screen bg-background">
         <article className="container mx-auto px-6 max-w-4xl">
-          {/* Back Link */}
           <ScrollReveal>
+            <Breadcrumbs
+              className="mb-6"
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Blog", path: "/blog" },
+                { label: post.title },
+              ]}
+            />
             <Link
               to="/blog"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground font-body text-sm mb-8 transition-colors"

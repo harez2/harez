@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SERVICES, SERVICE_LIST } from "@/data/services";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -41,6 +42,22 @@ const ServicePage = () => {
             })),
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: service.title + (service.titleHighlight ? ` ${service.titleHighlight}` : ""),
+            description: service.metaDescription,
+            provider: {
+              "@type": "Person",
+              name: "Md Harez Al Baki",
+              url: "https://harezalbaki.com",
+            },
+            areaServed: "Worldwide",
+            url: `https://harezalbaki.com/services/${service.slug}`,
+            serviceType: service.eyebrow,
+          })}
+        </script>
       </Helmet>
 
       <ScrollProgress />
@@ -52,6 +69,15 @@ const ServicePage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
           <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] crystal-orb opacity-30 pointer-events-none" />
           <div className="container mx-auto px-6 relative">
+            <div className="max-w-5xl mx-auto mb-6">
+              <Breadcrumbs
+                items={[
+                  { label: "Home", path: "/" },
+                  { label: "Services", path: "/#services" },
+                  { label: service.title + (service.titleHighlight ? ` ${service.titleHighlight}` : "") },
+                ]}
+              />
+            </div>
             <div className="max-w-3xl mx-auto text-center">
               <ScrollReveal>
                 <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-body font-medium text-primary bg-primary/10 rounded-full border border-primary/20">

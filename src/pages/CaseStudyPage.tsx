@@ -7,6 +7,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useCaseStudyBySlug, useCaseStudies } from "@/hooks/useContent";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const CaseStudyPage = () => {
   const { slug = "" } = useParams();
@@ -53,6 +54,14 @@ const CaseStudyPage = () => {
       <main id="main-content" className="pt-24">
         <section className="py-16 lg:py-24 bg-secondary/40">
           <div className="container mx-auto px-6 max-w-5xl">
+            <Breadcrumbs
+              className="mb-6"
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Case Studies", path: "/#case-studies" },
+                { label: study.client },
+              ]}
+            />
             <Link
               to="/#case-studies"
               className="inline-flex items-center gap-2 font-body text-sm text-muted-foreground hover:text-primary mb-8 transition-colors"
