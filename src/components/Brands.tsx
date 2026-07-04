@@ -88,22 +88,17 @@ interface BrandCardProps {
 const BrandCard = ({ brand }: BrandCardProps) => {
   const content = (
     <div className="group relative flex-shrink-0 mx-3 w-32 sm:w-36 h-20 sm:h-24 flex items-center justify-center">
-      {/* Glassmorphism card */}
-      <div className="absolute inset-0 bg-glass border border-glass rounded-xl shadow-soft transition-all duration-500 group-hover:shadow-glow group-hover:border-primary/30 group-hover:scale-105">
-        {/* Holographic shimmer effect */}
-        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-shine animate-shimmer" />
-        </div>
-        
-        {/* Neon glow on hover */}
+      {/* Uniform white card so every logo (light or dark) is equally visible */}
+      <div className="absolute inset-0 bg-white border border-glass rounded-xl shadow-soft transition-all duration-500 group-hover:shadow-glow group-hover:border-primary/30 group-hover:scale-105">
         <div className="absolute -inset-0.5 bg-gradient-crystal rounded-xl opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-500" />
       </div>
-      
-      {/* Logo */}
+
+      {/* Logo — mix-blend-multiply strips solid white backgrounds from raster logos */}
       <img
         src={brand.logo_url}
         alt={brand.name}
-        className="relative z-10 max-w-[75%] max-h-[55%] object-contain filter transition-all duration-300 group-hover:brightness-110 dark:brightness-90 dark:group-hover:brightness-110"
+        loading="lazy"
+        className="relative z-10 max-w-[70%] max-h-[60%] object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105"
       />
     </div>
   );
