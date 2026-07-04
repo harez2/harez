@@ -7,6 +7,19 @@ export interface HeroContent {
   nameHighlight: string;
   subtitle: string;
   resumeUrl?: string;
+  headline?: string;
+  headlineHighlight?: string;
+  headlineSuffix?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  stat1Value?: string;
+  stat1Label?: string;
+  stat2Value?: string;
+  stat2Label?: string;
+  stat3Value?: string;
+  stat3Label?: string;
 }
 
 export interface AboutContent {

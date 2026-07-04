@@ -12,12 +12,38 @@ const HeroEditor = () => {
     nameHighlight: "",
     subtitle: "",
     resumeUrl: "",
+    headline: "",
+    headlineHighlight: "",
+    headlineSuffix: "",
+    primaryCtaLabel: "",
+    primaryCtaHref: "",
+    secondaryCtaLabel: "",
+    secondaryCtaHref: "",
+    stat1Value: "",
+    stat1Label: "",
+    stat2Value: "",
+    stat2Label: "",
+    stat3Value: "",
+    stat3Label: "",
   });
   const [uploadingResume, setUploadingResume] = useState(false);
 
   useEffect(() => {
     if (content) {
       setFormData({
+        headline: "",
+        headlineHighlight: "",
+        headlineSuffix: "",
+        primaryCtaLabel: "",
+        primaryCtaHref: "",
+        secondaryCtaLabel: "",
+        secondaryCtaHref: "",
+        stat1Value: "",
+        stat1Label: "",
+        stat2Value: "",
+        stat2Label: "",
+        stat3Value: "",
+        stat3Label: "",
         ...content,
         resumeUrl: content.resumeUrl || "",
       });
@@ -129,6 +155,98 @@ const HeroEditor = () => {
             className="w-full px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none"
             placeholder="Your tagline or brief description"
           />
+        </div>
+
+        {/* Headline */}
+        <div className="pt-4 border-t border-border">
+          <h3 className="font-display text-sm font-semibold text-foreground mb-3">Main Headline</h3>
+          <div className="grid md:grid-cols-3 gap-3">
+            <input
+              type="text"
+              value={formData.headline || ""}
+              onChange={(e) => setFormData({ ...formData, headline: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Prefix (e.g., Scale your business with)"
+            />
+            <input
+              type="text"
+              value={formData.headlineHighlight || ""}
+              onChange={(e) => setFormData({ ...formData, headlineHighlight: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Highlighted word (e.g., data-driven)"
+            />
+            <input
+              type="text"
+              value={formData.headlineSuffix || ""}
+              onChange={(e) => setFormData({ ...formData, headlineSuffix: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Suffix (e.g., performance marketing)"
+            />
+          </div>
+        </div>
+
+        {/* CTA Buttons */}
+        <div className="pt-4 border-t border-border">
+          <h3 className="font-display text-sm font-semibold text-foreground mb-3">Call-to-Action Buttons</h3>
+          <div className="grid md:grid-cols-2 gap-3 mb-3">
+            <input
+              type="text"
+              value={formData.primaryCtaLabel || ""}
+              onChange={(e) => setFormData({ ...formData, primaryCtaLabel: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Primary button label"
+            />
+            <input
+              type="text"
+              value={formData.primaryCtaHref || ""}
+              onChange={(e) => setFormData({ ...formData, primaryCtaHref: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Primary link (e.g., #lead-magnet)"
+            />
+          </div>
+          <div className="grid md:grid-cols-2 gap-3">
+            <input
+              type="text"
+              value={formData.secondaryCtaLabel || ""}
+              onChange={(e) => setFormData({ ...formData, secondaryCtaLabel: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Secondary button label"
+            />
+            <input
+              type="text"
+              value={formData.secondaryCtaHref || ""}
+              onChange={(e) => setFormData({ ...formData, secondaryCtaHref: e.target.value })}
+              className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+              placeholder="Secondary link (e.g., #case-studies)"
+            />
+          </div>
+        </div>
+
+        {/* Trust Stats */}
+        <div className="pt-4 border-t border-border">
+          <h3 className="font-display text-sm font-semibold text-foreground mb-3">Trust Stats</h3>
+          {([1, 2, 3] as const).map((i) => {
+            const valueKey = `stat${i}Value` as const;
+            const labelKey = `stat${i}Label` as const;
+            return (
+              <div key={i} className="grid md:grid-cols-2 gap-3 mb-3">
+                <input
+                  type="text"
+                  value={(formData[valueKey] as string) || ""}
+                  onChange={(e) => setFormData({ ...formData, [valueKey]: e.target.value })}
+                  className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+                  placeholder={`Stat ${i} value (e.g., $500K+)`}
+                />
+                <input
+                  type="text"
+                  value={(formData[labelKey] as string) || ""}
+                  onChange={(e) => setFormData({ ...formData, [labelKey]: e.target.value })}
+                  className="px-4 py-3 bg-secondary/50 border border-border rounded-xl font-body text-foreground focus:outline-none focus:border-primary transition-all"
+                  placeholder={`Stat ${i} label (e.g., Ad spend)`}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Resume Upload */}
