@@ -1,7 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { useCustomizationsContext } from "@/contexts/CustomizationsContext";
+
+interface NavLink { href: string; label: string; isRoute: boolean }
+
+const DEFAULT_LINKS: NavLink[] = [
+  { href: "#home", label: "Home", isRoute: false },
+  { href: "#about", label: "About", isRoute: false },
+  { href: "#services", label: "Services", isRoute: false },
+  { href: "#case-studies", label: "Case Studies", isRoute: false },
+  { href: "#industries", label: "Industries", isRoute: false },
+  { href: "/blog", label: "Resources", isRoute: true },
+  { href: "#contact", label: "Contact", isRoute: false },
+];
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -9,128 +22,94 @@ const Navigation = () => {
   const { navigation } = useCustomizationsContext();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Use customized menu items or defaults
-  const menuItems = navigation?.menuItems || ["About", "Skills", "Experience", "Blog", "1:1 Session", "Contact"];
-  const logoText = navigation?.logoText || "HAB";
-  const showLogo = navigation?.showLogo ?? true;
+  const logoText = navigation?.logoText || "Harez";
   const showThemeToggle = navigation?.showThemeToggle ?? true;
-  const stickyHeader = navigation?.stickyHeader ?? true;
-
-  const navLinks = menuItems.map((item) => {
-    const lower = item.toLowerCase();
-    const isRoute = lower === "blog" || lower === "1:1 session";
-    const href = lower === "blog" ? "/blog" : lower === "1:1 session" ? "/business-growth" : `#${lower}`;
-    return { href, label: item, isRoute };
-  });
+  const links = DEFAULT_LINKS;
 
   return (
     <nav
-      className={`${stickyHeader ? "fixed" : "absolute"} top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-glass border-b border-border shadow-soft"
-          : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-glass border-b border-border/60 shadow-soft py-2" : "bg-transparent py-3"
       }`}
     >
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
-          {showLogo && (
-            <a
-              href="#"
-              className="font-display text-xl font-bold text-foreground hover:text-primary transition-colors"
-            >
-              {logoText}<span className="text-gradient">.</span>
-            </a>
-          )}
-          {!showLogo && <div />}
+        <div className="flex items-center justify-between h-14">
+          <a href="#home" className="font-display text-lg font-extrabold text-foreground">
+            {logoText}<span className="text-gradient">.</span>
+          </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) =>
-              link.isRoute ? (
+          <div className="hidden lg:flex items-center gap-1">
+            {links.map((l) =>
+              l.isRoute ? (
                 <Link
-                  key={link.href}
-                  to={link.href}
-                  className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  key={l.href}
+                  to={l.href}
+                  className="px-3 py-2 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {link.label}
+                  {l.label}
                 </Link>
               ) : (
                 <a
-                  key={link.href}
-                  href={link.href}
-                  className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  key={l.href}
+                  href={l.href}
+                  className="px-3 py-2 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {link.label}
+                  {l.label}
                 </a>
-              )
+              ),
             )}
+          </div>
+
+          <div className="hidden lg:flex items-center gap-3">
             {showThemeToggle && <ThemeToggle />}
             <a
-              href="#contact"
-              className="px-5 py-2 bg-gradient-crystal text-primary-foreground font-body text-sm font-medium rounded-lg shadow-soft hover:shadow-crystal transition-all"
+              href="#lead-magnet"
+              className="group inline-flex items-center gap-1.5 px-4 py-2.5 bg-gradient-crystal text-primary-foreground font-body text-sm font-semibold rounded-lg shadow-crystal hover:shadow-glow transition-all"
             >
-              Hire Me
+              Book Free Strategy Call
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+            className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
             aria-label="Toggle menu"
           >
-            <span
-              className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${
-                mobileOpen ? "rotate-45 translate-y-2" : ""
-              }`}
-            />
-            <span
-              className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${
-                mobileOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${
-                mobileOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
-            />
+            <span className={`w-5 h-0.5 bg-foreground transition-all ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`w-5 h-0.5 bg-foreground transition-all ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`w-5 h-0.5 bg-foreground transition-all ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ${
-            mobileOpen ? "max-h-64 pb-6" : "max-h-0"
-          }`}
-        >
-          <div className="flex flex-col gap-3 pt-4 border-t border-border">
-            {navLinks.map((link) =>
-              link.isRoute ? (
+        <div className={`lg:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-[500px] pb-6" : "max-h-0"}`}>
+          <div className="flex flex-col gap-1 pt-4 border-t border-border">
+            {links.map((l) =>
+              l.isRoute ? (
                 <Link
-                  key={link.href}
-                  to={link.href}
+                  key={l.href}
+                  to={l.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-body text-muted-foreground hover:text-foreground transition-colors py-2"
+                  className="font-body text-muted-foreground hover:text-foreground transition-colors py-2.5"
                 >
-                  {link.label}
+                  {l.label}
                 </Link>
               ) : (
                 <a
-                  key={link.href}
-                  href={link.href}
+                  key={l.href}
+                  href={l.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-body text-muted-foreground hover:text-foreground transition-colors py-2"
+                  className="font-body text-muted-foreground hover:text-foreground transition-colors py-2.5"
                 >
-                  {link.label}
+                  {l.label}
                 </a>
-              )
+              ),
             )}
             {showThemeToggle && (
               <div className="py-2">
@@ -138,11 +117,11 @@ const Navigation = () => {
               </div>
             )}
             <a
-              href="#contact"
+              href="#lead-magnet"
               onClick={() => setMobileOpen(false)}
-              className="px-5 py-3 bg-gradient-crystal text-primary-foreground font-body text-sm font-medium rounded-lg text-center mt-2"
+              className="mt-2 px-5 py-3 bg-gradient-crystal text-primary-foreground font-body text-sm font-semibold rounded-lg text-center"
             >
-              Hire Me
+              Book Free Strategy Call
             </a>
           </div>
         </div>
