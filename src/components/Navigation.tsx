@@ -80,7 +80,9 @@ const Navigation = () => {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             <span className={`w-5 h-0.5 bg-foreground transition-all ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
             <span className={`w-5 h-0.5 bg-foreground transition-all ${mobileOpen ? "opacity-0" : ""}`} />
@@ -88,7 +90,10 @@ const Navigation = () => {
           </button>
         </div>
 
-        <div className={`lg:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-[500px] pb-6" : "max-h-0"}`}>
+        <div
+          id="mobile-menu"
+          className={`lg:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-[500px] pb-6" : "max-h-0"}`}
+        >
           <div className="flex flex-col gap-1 pt-4 border-t border-border">
             {links.map((l) =>
               l.isRoute ? (
