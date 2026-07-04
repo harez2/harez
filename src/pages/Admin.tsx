@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox, Quote, HelpCircle, Download, Trophy, BarChart3 } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox, Quote, HelpCircle, Download, Trophy, BarChart3, Hash } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -35,8 +35,9 @@ import FaqsEditor from "@/components/admin/FaqsEditor";
 import ResourcesEditor from "@/components/admin/ResourcesEditor";
 import CaseStudiesEditor from "@/components/admin/CaseStudiesEditor";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
+import StatsEditor from "@/components/admin/StatsEditor";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads" | "testimonials" | "faqs" | "resources" | "case_studies" | "analytics";
+type Tab = "hero" | "stats" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads" | "testimonials" | "faqs" | "resources" | "case_studies" | "analytics";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -78,6 +79,7 @@ const Admin = () => {
       label: "Site Content",
       tabs: [
         { id: "hero", label: "Hero", icon: Home },
+        { id: "stats", label: "Stats", icon: Hash },
         { id: "about", label: "About", icon: FileText },
         { id: "skills", label: "Skills", icon: GraduationCap },
         { id: "brands", label: "Brands", icon: Building2 },
@@ -178,6 +180,7 @@ const Admin = () => {
           <main className="flex-1 p-6 lg:p-8">
             <div className="bg-card border border-border rounded-2xl p-6 lg:p-8">
           {activeTab === "hero" && <HeroEditor />}
+          {activeTab === "stats" && <StatsEditor />}
           {activeTab === "about" && <AboutEditor />}
           {activeTab === "skills" && <SkillsEditor />}
           {activeTab === "brands" && <BrandsEditor />}

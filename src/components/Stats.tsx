@@ -1,7 +1,16 @@
 import ScrollReveal from "./ScrollReveal";
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const STATS = [
+export interface StatItem {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  label: string;
+}
+
+const DEFAULT_STATS: StatItem[] = [
   { value: 500, suffix: "K+", prefix: "$", label: "Managed Ad Spend" },
   { value: 30, suffix: "+", label: "Businesses Served" },
   { value: 300, suffix: "%", label: "Average ROAS" },
@@ -26,7 +35,7 @@ function useCountUp(target: number, active: boolean, duration = 1600) {
   return n;
 }
 
-const Stat = ({ s }: { s: (typeof STATS)[number] }) => {
+const Stat = ({ s }: { s: StatItem }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
   useEffect(() => {
@@ -52,18 +61,38 @@ const Stat = ({ s }: { s: (typeof STATS)[number] }) => {
   );
 };
 
-const Stats = () => (
-  <section className="py-16 lg:py-20 border-y border-border/60">
-    <div className="container mx-auto px-6">
-      <ScrollReveal>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
-          {STATS.map((s) => (
-            <Stat key={s.label} s={s} />
-          ))}
-        </div>
-      </ScrollReveal>
-    </div>
-  </section>
-);
+const Stats = () => {
+  const { data } = useQuery({
+    queryKey: ["site_content", "stats"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("content")
+        .eq("section", "stats")
+        .maybeSingle();
+      if (error) throw error;
+      return (data?.content as { items?: StatItem[] } | null) ?? null;
+    },
+  });
+
+  const stats =
+    data?.items && Array.isArray(data.items) && data.items.length > 0
+      ? data.items
+      : DEFAULT_STATS;
+
+  return (
+    <section className="py-16 lg:py-20 border-y border-border/60">
+      <div className="container mx-auto px-6">
+        <ScrollReveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+            {stats.map((s, i) => (
+              <Stat key={`${s.label}-${i}`} s={s} />
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+};
 
 export default Stats;
