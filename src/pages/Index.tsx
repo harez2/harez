@@ -1,19 +1,26 @@
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
+import Brands from "@/components/Brands";
+import Stats from "@/components/Stats";
+import Services from "@/components/Services";
+import Process from "@/components/Process";
+import CaseStudies from "@/components/CaseStudies";
+import Industries from "@/components/Industries";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
-import Brands from "@/components/Brands";
 import Experience from "@/components/Experience";
 import BlogPreview from "@/components/BlogPreview";
+import LeadMagnet from "@/components/LeadMagnet";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import ScrollProgress from "@/components/ScrollProgress";
 import { useCustomizationsContext } from "@/contexts/CustomizationsContext";
 
 const Index = () => {
   const { layout } = useCustomizationsContext();
 
-  // Default to showing all sections if layout hasn't loaded
   const showHero = layout?.showHero ?? true;
   const showAbout = layout?.showAbout ?? true;
   const showSkills = layout?.showSkills ?? true;
@@ -25,46 +32,51 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Md Harez Al Baki | Digital Marketing Manager</title>
+        <title>Harez Al Baki — Performance Marketing Consultant & Growth Partner</title>
         <meta
           name="description"
-          content="Digital Marketing Manager with 5+ years in media buying, lead generation, and growth marketing across Facebook and Google Ads."
+          content="Scale your business with data-driven performance marketing. Meta Ads, Google Ads, SEO and CRO from a consultant who has managed $500K+ in ad spend across 30+ brands."
         />
-        <meta name="keywords" content="digital marketing, performance marketing, media buyer, Facebook ads, Google ads, lead generation, growth marketing, Dhaka, Bangladesh" />
-        <link rel="canonical" href="https://harez.lovable.app" />
+        <meta name="keywords" content="performance marketing consultant, growth partner, Meta Ads, Google Ads, SEO, CRO, lead generation, Dhaka, Bangladesh" />
+        <link rel="canonical" href="https://harezalbaki.com" />
+        <meta property="og:title" content="Harez Al Baki — Performance Marketing Consultant" />
+        <meta property="og:description" content="Scale your business with data-driven performance marketing." />
+        <meta property="og:url" content="https://harezalbaki.com" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
             name: "Md Harez Al Baki",
-            url: "https://harez.lovable.app",
-            jobTitle: "Digital Marketing Manager",
+            url: "https://harezalbaki.com",
+            jobTitle: "Performance Marketing Consultant & Growth Partner",
             description:
-              "Digital Marketing Manager with 5+ years experience in media buying, lead generation, and growth marketing.",
-            sameAs: ["https://twitter.com/iamharez"],
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Md Harez Al Baki",
-            url: "https://harez.lovable.app",
+              "Performance marketing consultant helping ambitious brands turn ad spend into predictable revenue.",
+            sameAs: ["https://twitter.com/iamharez", "https://linkedin.com/in/iamharez"],
           })}
         </script>
       </Helmet>
-      
-      <main className="overflow-hidden">
-        <Navigation />
+
+      <ScrollProgress />
+      <Navigation />
+
+      <main id="home" className="overflow-hidden">
         {showHero && <Hero />}
+        {showBrands && <Brands />}
+        <Stats />
+        <Services />
+        <Process />
+        <CaseStudies />
+        <Industries />
         {showAbout && <About />}
         {showSkills && <Skills />}
-        {showBrands && <Brands />}
         {showExperience && <Experience />}
+        <LeadMagnet />
         {showBlog && <BlogPreview />}
         {showContact && <Contact />}
         <Footer />
       </main>
+
+      <FloatingWhatsApp />
     </>
   );
 };
