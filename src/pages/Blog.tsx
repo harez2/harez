@@ -72,6 +72,7 @@ const Blog = () => {
           </ScrollReveal>
 
           {/* Posts Grid */}
+          <h2 className="sr-only">Latest Articles</h2>
           {isLoading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (

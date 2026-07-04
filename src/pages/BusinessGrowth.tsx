@@ -13,8 +13,9 @@ const BusinessGrowth = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Business Growth 1:1 Session"
+        title="Business Growth 1:1 Session | Md Harez Al Baki"
         description="Book a personalized business growth consultation session. Get expert guidance on strategy, marketing, and scaling your business."
+        url="/business-growth"
       />
 
       {/* Simple Nav */}

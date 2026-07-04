@@ -28,6 +28,7 @@ const Hero = () => {
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 opacity-0 animate-fade-up animation-delay-100">
             {name}{" "}
             <span className="text-gradient">{nameHighlight}</span>
+            <span className="sr-only"> — Digital Marketing Manager</span>
           </h1>
 
           {/* Subtitle */}

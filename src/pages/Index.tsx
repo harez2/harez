@@ -28,10 +28,30 @@ const Index = () => {
         <title>Md Harez Al Baki | Digital Marketing Manager</title>
         <meta
           name="description"
-          content="Md Harez Al Baki is a Digital Marketing Manager with 5+ years experience in media buying, lead generation, and growth marketing. Specializing in Facebook Ads, Google Ads, and data-driven campaigns."
+          content="Digital Marketing Manager with 5+ years in media buying, lead generation, and growth marketing across Facebook and Google Ads."
         />
         <meta name="keywords" content="digital marketing, performance marketing, media buyer, Facebook ads, Google ads, lead generation, growth marketing, Dhaka, Bangladesh" />
-        <link rel="canonical" href="https://harezalbaki.com" />
+        <link rel="canonical" href="https://harez.lovable.app" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Md Harez Al Baki",
+            url: "https://harez.lovable.app",
+            jobTitle: "Digital Marketing Manager",
+            description:
+              "Digital Marketing Manager with 5+ years experience in media buying, lead generation, and growth marketing.",
+            sameAs: ["https://twitter.com/iamharez"],
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Md Harez Al Baki",
+            url: "https://harez.lovable.app",
+          })}
+        </script>
       </Helmet>
       
       <main className="overflow-hidden">
