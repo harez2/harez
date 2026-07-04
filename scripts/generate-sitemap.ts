@@ -67,25 +67,21 @@ function xml(entries: SitemapEntry[]) {
 }
 
 async function main() {
-  const [posts, caseStudies] = await Promise.all([
-    fetchRows("blog_posts", "slug,updated_at,published_at", "published=eq.true"),
-    fetchRows("case_studies", "slug,updated_at", "published=eq.true"),
-  ]);
+  const posts = await fetchRows(
+    "blog_posts",
+    "slug,updated_at,published_at",
+    "published_at=not.is.null"
+  );
 
-  const dynamic: SitemapEntry[] = [
-    ...posts.map((p) => ({
-      path: `/blog/${p.slug}`,
-      lastmod: (p.updated_at || p.published_at || "").slice(0, 10) || undefined,
-      changefreq: "monthly" as const,
-      priority: "0.7",
-    })),
-    ...caseStudies.map((c) => ({
-      path: `/case-studies/${c.slug}`,
-      lastmod: (c.updated_at || "").slice(0, 10) || undefined,
-      changefreq: "monthly" as const,
-      priority: "0.8",
-    })),
-  ];
+  const dynamic: SitemapEntry[] = posts.map((p) => ({
+    path: `/blog/${p.slug}`,
+    lastmod: (p.updated_at || p.published_at || "").slice(0, 10) || undefined,
+    changefreq: "monthly" as const,
+    priority: "0.7",
+  }));
+
+  // Case study slugs stay static (kept in staticEntries) because the
+  // case_studies read policy is admin-only and blocks anon at build time.
 
   const all = [...staticEntries, ...dynamic];
   writeFileSync(resolve("public/sitemap.xml"), xml(all));
