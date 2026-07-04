@@ -42,7 +42,7 @@ const CaseStudyPage = () => {
       <ScrollProgress />
       <Navigation />
 
-      <main className="pt-24">
+      <main id="main-content" className="pt-24">
         <section className="py-16 lg:py-24 bg-secondary/40">
           <div className="container mx-auto px-6 max-w-5xl">
             <Link

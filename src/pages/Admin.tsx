@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox } from "lucide-react";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
@@ -17,8 +17,9 @@ import ConsultationProjectsEditor from "@/components/admin/ConsultationProjectsE
 import ConsultationReviewsEditor from "@/components/admin/ConsultationReviewsEditor";
 import ConsultationSlotsEditor from "@/components/admin/ConsultationSlotsEditor";
 import ConsultationBookingsManager from "@/components/admin/ConsultationBookingsManager";
+import AuditRequestsManager from "@/components/admin/AuditRequestsManager";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -48,6 +49,7 @@ const Admin = () => {
   if (!user) return null;
 
   const tabs = [
+    { id: "leads" as Tab, label: "Leads", icon: Inbox },
     { id: "hero" as Tab, label: "Hero", icon: Home },
     { id: "about" as Tab, label: "About", icon: FileText },
     { id: "skills" as Tab, label: "Skills", icon: GraduationCap },
@@ -133,6 +135,7 @@ const Admin = () => {
           )}
           {activeTab === "slots" && <ConsultationSlotsEditor />}
           {activeTab === "bookings" && <ConsultationBookingsManager />}
+          {activeTab === "leads" && <AuditRequestsManager />}
           {activeTab === "customizations" && <CustomizationsEditor />}
         </div>
       </div>

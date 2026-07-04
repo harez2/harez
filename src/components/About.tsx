@@ -18,9 +18,11 @@ const About = () => {
                 {/* Crystal card effect */}
                 <div className="absolute inset-0 bg-gradient-crystal rounded-3xl opacity-10" />
                 <div className="absolute inset-0 bg-card rounded-3xl border border-border shadow-crystal overflow-hidden">
-                  <img 
+                  <img
                     src={profileImage} 
                     alt="Md Harez Al Baki" 
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 </div>

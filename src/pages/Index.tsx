@@ -62,7 +62,8 @@ const Index = () => {
       <ScrollProgress />
       <Navigation />
 
-      <main id="home" className="overflow-hidden">
+      <main id="main-content" className="overflow-hidden">
+        <a id="home" aria-hidden="true" />
         {showHero && <Hero />}
         {showBrands && <Brands />}
         <Stats />
