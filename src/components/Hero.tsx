@@ -5,6 +5,22 @@ import HeroBackground from "./HeroBackground";
 const Hero = () => {
   const { data: content } = useSiteContent<HeroContent>("hero");
   const badge = content?.badge || "Performance Marketing Consultant & Growth Partner";
+  const headline = content?.headline || "Scale your business with";
+  const headlineHighlight = content?.headlineHighlight || "data-driven";
+  const headlineSuffix = content?.headlineSuffix || "performance marketing";
+  const subtitle =
+    content?.subtitle ||
+    "I help businesses generate more qualified leads, increase online sales, and maximize ROI through Meta Ads, Google Ads, SEO and Conversion Rate Optimization.";
+  const primaryCtaLabel = content?.primaryCtaLabel || "Book Free Strategy Call";
+  const primaryCtaHref = content?.primaryCtaHref || "#lead-magnet";
+  const secondaryCtaLabel = content?.secondaryCtaLabel || "View Case Studies";
+  const secondaryCtaHref = content?.secondaryCtaHref || "#case-studies";
+  const stat1Value = content?.stat1Value || "$500K+";
+  const stat1Label = content?.stat1Label || "Ad spend";
+  const stat2Value = content?.stat2Value || "30+";
+  const stat2Label = content?.stat2Label || "Businesses";
+  const stat3Value = content?.stat3Value || "300%";
+  const stat3Label = content?.stat3Label || "Avg ROAS";
 
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
@@ -20,36 +36,36 @@ const Hero = () => {
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] mb-6 opacity-0 animate-fade-up animation-delay-100">
-              Scale your business with{" "}
-              <span className="text-gradient">data-driven</span> performance marketing
+              {headline}{" "}
+              <span className="text-gradient">{headlineHighlight}</span> {headlineSuffix}
             </h1>
 
             <p className="font-body text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 opacity-0 animate-fade-up animation-delay-200 leading-relaxed">
-              I help businesses generate more qualified leads, increase online sales, and maximize ROI through Meta Ads, Google Ads, SEO and Conversion Rate Optimization.
+              {subtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 opacity-0 animate-fade-up animation-delay-300">
               <a
-                href="#lead-magnet"
+                href={primaryCtaHref}
                 className="group w-full sm:w-auto px-7 py-4 bg-gradient-crystal text-primary-foreground font-body font-semibold rounded-xl shadow-crystal hover:shadow-glow transition-all flex items-center justify-center gap-2"
               >
-                Book Free Strategy Call
+                {primaryCtaLabel}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
-                href="#case-studies"
+                href={secondaryCtaHref}
                 className="w-full sm:w-auto px-7 py-4 bg-card border border-border text-foreground font-body font-medium rounded-xl shadow-soft hover:border-primary/50 transition-all"
               >
-                View Case Studies
+                {secondaryCtaLabel}
               </a>
             </div>
 
             <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 opacity-0 animate-fade-up animation-delay-400">
-              <TrustMini n="$500K+" l="Ad spend" />
+              <TrustMini n={stat1Value} l={stat1Label} />
               <span className="w-px h-8 bg-border" />
-              <TrustMini n="30+" l="Businesses" />
+              <TrustMini n={stat2Value} l={stat2Label} />
               <span className="w-px h-8 bg-border" />
-              <TrustMini n="300%" l="Avg ROAS" />
+              <TrustMini n={stat3Value} l={stat3Label} />
             </div>
           </div>
 
