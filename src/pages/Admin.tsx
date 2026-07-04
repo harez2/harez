@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox, Quote, HelpCircle, Download, Trophy } from "lucide-react";
+import { Loader2, LogOut, Home, FileText, Briefcase, GraduationCap, MessageSquare, Building2, PenSquare, Settings, Rocket, Calendar, ClipboardList, Inbox, Quote, HelpCircle, Download, Trophy, BarChart3 } from "lucide-react";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
@@ -22,8 +22,9 @@ import TestimonialsEditor from "@/components/admin/TestimonialsEditor";
 import FaqsEditor from "@/components/admin/FaqsEditor";
 import ResourcesEditor from "@/components/admin/ResourcesEditor";
 import CaseStudiesEditor from "@/components/admin/CaseStudiesEditor";
+import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 
-type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads" | "testimonials" | "faqs" | "resources" | "case_studies";
+type Tab = "hero" | "about" | "skills" | "brands" | "experience" | "education" | "blog" | "contact" | "customizations" | "consultation" | "slots" | "bookings" | "leads" | "testimonials" | "faqs" | "resources" | "case_studies" | "analytics";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -53,6 +54,7 @@ const Admin = () => {
   if (!user) return null;
 
   const tabs = [
+    { id: "analytics" as Tab, label: "Analytics", icon: BarChart3 },
     { id: "leads" as Tab, label: "Leads", icon: Inbox },
     { id: "hero" as Tab, label: "Hero", icon: Home },
     { id: "about" as Tab, label: "About", icon: FileText },
@@ -149,6 +151,7 @@ const Admin = () => {
           {activeTab === "resources" && <ResourcesEditor />}
           {activeTab === "case_studies" && <CaseStudiesEditor />}
           {activeTab === "customizations" && <CustomizationsEditor />}
+          {activeTab === "analytics" && <AnalyticsDashboard />}
         </div>
       </div>
     </div>
