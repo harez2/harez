@@ -53,25 +53,50 @@ const Admin = () => {
 
   if (!user) return null;
 
-  const tabs = [
-    { id: "analytics" as Tab, label: "Analytics", icon: BarChart3 },
-    { id: "leads" as Tab, label: "Leads", icon: Inbox },
-    { id: "hero" as Tab, label: "Hero", icon: Home },
-    { id: "about" as Tab, label: "About", icon: FileText },
-    { id: "skills" as Tab, label: "Skills", icon: GraduationCap },
-    { id: "brands" as Tab, label: "Brands", icon: Building2 },
-    { id: "experience" as Tab, label: "Experience", icon: Briefcase },
-    { id: "education" as Tab, label: "Education", icon: GraduationCap },
-    { id: "blog" as Tab, label: "Blog", icon: PenSquare },
-    { id: "case_studies" as Tab, label: "Case Studies", icon: Trophy },
-    { id: "testimonials" as Tab, label: "Testimonials", icon: Quote },
-    { id: "faqs" as Tab, label: "FAQs", icon: HelpCircle },
-    { id: "resources" as Tab, label: "Resources", icon: Download },
-    { id: "contact" as Tab, label: "Contact", icon: MessageSquare },
-    { id: "consultation" as Tab, label: "Consultation", icon: Rocket },
-    { id: "slots" as Tab, label: "Slots", icon: Calendar },
-    { id: "bookings" as Tab, label: "Bookings", icon: ClipboardList },
-    { id: "customizations" as Tab, label: "Customize", icon: Settings },
+  const tabGroups: { label: string; tabs: { id: Tab; label: string; icon: typeof Home }[] }[] = [
+    {
+      label: "Overview",
+      tabs: [
+        { id: "analytics", label: "Analytics", icon: BarChart3 },
+        { id: "leads", label: "Leads", icon: Inbox },
+        { id: "bookings", label: "Bookings", icon: ClipboardList },
+      ],
+    },
+    {
+      label: "Site Content",
+      tabs: [
+        { id: "hero", label: "Hero", icon: Home },
+        { id: "about", label: "About", icon: FileText },
+        { id: "skills", label: "Skills", icon: GraduationCap },
+        { id: "brands", label: "Brands", icon: Building2 },
+        { id: "experience", label: "Experience", icon: Briefcase },
+        { id: "education", label: "Education", icon: GraduationCap },
+        { id: "contact", label: "Contact", icon: MessageSquare },
+      ],
+    },
+    {
+      label: "Publishing",
+      tabs: [
+        { id: "blog", label: "Blog", icon: PenSquare },
+        { id: "case_studies", label: "Case Studies", icon: Trophy },
+        { id: "testimonials", label: "Testimonials", icon: Quote },
+        { id: "faqs", label: "FAQs", icon: HelpCircle },
+        { id: "resources", label: "Resources", icon: Download },
+      ],
+    },
+    {
+      label: "Consultation",
+      tabs: [
+        { id: "consultation", label: "Content", icon: Rocket },
+        { id: "slots", label: "Slots", icon: Calendar },
+      ],
+    },
+    {
+      label: "Settings",
+      tabs: [
+        { id: "customizations", label: "Customize", icon: Settings },
+      ],
+    },
   ];
 
   return (
@@ -106,21 +131,30 @@ const Admin = () => {
       </header>
 
       <div className="container mx-auto px-6 py-8">
-        {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg font-body text-sm flex items-center gap-2 transition-all ${
-                activeTab === tab.id
-                  ? "bg-primary text-primary-foreground shadow-crystal"
-                  : "bg-secondary text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
-            </button>
+        {/* Grouped tabs */}
+        <div className="space-y-4 mb-8">
+          {tabGroups.map((group) => (
+            <div key={group.label}>
+              <div className="text-[11px] font-body font-semibold uppercase tracking-wider text-muted-foreground mb-2 px-1">
+                {group.label}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {group.tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-4 py-2 rounded-lg font-body text-sm flex items-center gap-2 transition-all ${
+                      activeTab === tab.id
+                        ? "bg-primary text-primary-foreground shadow-crystal"
+                        : "bg-secondary text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
 
