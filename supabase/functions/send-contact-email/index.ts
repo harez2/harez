@@ -14,6 +14,14 @@ interface ContactRequest {
   message: string;
 }
 
+const escHtml = (s: unknown) =>
+  String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -64,15 +72,15 @@ const handler = async (req: Request): Promise<Response> => {
         from: "Portfolio Contact <onboarding@resend.dev>",
         to: ["harezalbaki@gmail.com"],
         reply_to: email,
-        subject: `New Contact Form Message from ${name}`,
+        subject: `New Contact Form Message from ${name}`.slice(0, 200),
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #2563eb;">New Contact Form Submission</h2>
             <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Name:</strong> ${escHtml(name)}</p>
+              <p><strong>Email:</strong> ${escHtml(email)}</p>
               <p><strong>Message:</strong></p>
-              <p style="white-space: pre-wrap; background: white; padding: 15px; border-radius: 4px;">${message}</p>
+              <p style="white-space: pre-wrap; background: white; padding: 15px; border-radius: 4px;">${escHtml(message)}</p>
             </div>
             <p style="color: #64748b; font-size: 12px;">This message was sent from your portfolio contact form.</p>
           </div>
