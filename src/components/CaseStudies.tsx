@@ -1,8 +1,10 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import ScrollReveal from "./ScrollReveal";
 
 const CASES = [
   {
+    slug: "tahoor-studio",
     client: "Tahoor Studio",
     industry: "Fashion",
     problem: "High CPL, low return on ad spend across Meta.",
@@ -14,6 +16,7 @@ const CASES = [
     ],
   },
   {
+    slug: "completo",
     client: "Completo",
     industry: "Software",
     problem: "Needed qualified B2B leads at predictable cost.",
@@ -25,6 +28,7 @@ const CASES = [
     ],
   },
   {
+    slug: "light-of-hope",
     client: "Light of Hope",
     industry: "Non-profit",
     problem: "Scaling awareness and donations on a tight budget.",
@@ -36,6 +40,7 @@ const CASES = [
     ],
   },
   {
+    slug: "chhayatoru",
     client: "Chhayatoru",
     industry: "Education",
     problem: "Course launch with limited historical data.",
@@ -76,7 +81,10 @@ const CaseStudies = () => (
       <div className="grid md:grid-cols-2 gap-6">
         {CASES.map((c, i) => (
           <ScrollReveal key={c.client} delay={i * 60}>
-            <article className="group relative h-full p-8 rounded-2xl bg-card border border-border shadow-soft hover:shadow-crystal hover:-translate-y-1 transition-all duration-300">
+            <Link
+              to={`/case-studies/${c.slug}`}
+              className="block group relative h-full p-8 rounded-2xl bg-card border border-border shadow-soft hover:shadow-crystal hover:-translate-y-1 transition-all duration-300"
+            >
               <div className="flex items-center justify-between mb-5">
                 <div>
                   <div className="font-display text-xl">{c.client}</div>
@@ -104,7 +112,7 @@ const CaseStudies = () => (
                   </div>
                 ))}
               </div>
-            </article>
+            </Link>
           </ScrollReveal>
         ))}
       </div>
