@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import BlogCard from "@/components/BlogCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import { format } from "date-fns";
+import DOMPurify from "dompurify";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -172,7 +173,12 @@ const BlogPost = () => {
                 prose-ul:text-muted-foreground prose-ol:text-muted-foreground
                 prose-blockquote:border-primary prose-blockquote:text-muted-foreground
                 prose-img:rounded-xl"
-              dangerouslySetInnerHTML={{ __html: post.content || "" }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post.content || "", {
+                  FORBID_TAGS: ["script", "style", "iframe", "object", "embed"],
+                  FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover"],
+                }),
+              }}
             />
           </ScrollReveal>
 
