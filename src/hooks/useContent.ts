@@ -127,7 +127,7 @@ export const useCaseStudyBySlug = (slug: string) =>
   });
 
 /* ---------- ADMIN READ ---------- */
-const adminList = <T,>(table: "testimonials" | "faqs" | "resources" | "case_studies") =>
+const useAdminList = <T,>(table: "testimonials" | "faqs" | "resources" | "case_studies") =>
   useQuery({
     queryKey: [table, "admin"],
     queryFn: async () => {
@@ -140,10 +140,10 @@ const adminList = <T,>(table: "testimonials" | "faqs" | "resources" | "case_stud
     },
   });
 
-export const useAdminTestimonials = () => adminList<Testimonial>("testimonials");
-export const useAdminFaqs = () => adminList<Faq>("faqs");
-export const useAdminResources = () => adminList<Resource>("resources");
-export const useAdminCaseStudies = () => adminList<CaseStudy>("case_studies");
+export const useAdminTestimonials = () => useAdminList<Testimonial>("testimonials");
+export const useAdminFaqs = () => useAdminList<Faq>("faqs");
+export const useAdminResources = () => useAdminList<Resource>("resources");
+export const useAdminCaseStudies = () => useAdminList<CaseStudy>("case_studies");
 
 /* ---------- ADMIN MUTATIONS ---------- */
 type TableName = "testimonials" | "faqs" | "resources" | "case_studies";
