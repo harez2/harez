@@ -132,7 +132,7 @@ const Contact = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://wa.me/8801797395739"
+                  href="https://web.whatsapp.com/send?phone=8801797395739"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="WhatsApp"
