@@ -12,6 +12,9 @@ import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import BlogPreview from "@/components/BlogPreview";
 import LeadMagnet from "@/components/LeadMagnet";
+import Testimonials from "@/components/Testimonials";
+import Resources from "@/components/Resources";
+import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
@@ -66,12 +69,15 @@ const Index = () => {
         <Services />
         <Process />
         <CaseStudies />
+        <Testimonials />
         <Industries />
         {showAbout && <About />}
         {showSkills && <Skills />}
         {showExperience && <Experience />}
         <LeadMagnet />
+        <Resources />
         {showBlog && <BlogPreview />}
+        <FAQ />
         {showContact && <Contact />}
         <Footer />
       </main>
