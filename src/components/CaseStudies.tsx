@@ -1,13 +1,15 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "./ScrollReveal";
+import { useCaseStudies } from "@/hooks/useContent";
 
-const CASES = [
+const FALLBACK = [
   {
+    id: "1",
     slug: "tahoor-studio",
     client: "Tahoor Studio",
     industry: "Fashion",
-    problem: "High CPL, low return on ad spend across Meta.",
+    tagline: "High CPL, low return on ad spend across Meta.",
     result: "4.2x ROAS in 90 days",
     metrics: [
       { k: "ROAS", v: "4.2x" },
@@ -16,10 +18,11 @@ const CASES = [
     ],
   },
   {
+    id: "2",
     slug: "completo",
     client: "Completo",
     industry: "Software",
-    problem: "Needed qualified B2B leads at predictable cost.",
+    tagline: "Needed qualified B2B leads at predictable cost.",
     result: "112 SQLs / month at $18 CPL",
     metrics: [
       { k: "SQLs", v: "112/mo" },
@@ -28,10 +31,11 @@ const CASES = [
     ],
   },
   {
+    id: "3",
     slug: "light-of-hope",
     client: "Light of Hope",
     industry: "Non-profit",
-    problem: "Scaling awareness and donations on a tight budget.",
+    tagline: "Scaling awareness and donations on a tight budget.",
     result: "2.8x donations, halved cost per donor",
     metrics: [
       { k: "Donations", v: "2.8x" },
@@ -40,10 +44,11 @@ const CASES = [
     ],
   },
   {
+    id: "4",
     slug: "chhayatoru",
     client: "Chhayatoru",
     industry: "Education",
-    problem: "Course launch with limited historical data.",
+    tagline: "Course launch with limited historical data.",
     result: "Sold-out first cohort in 3 weeks",
     metrics: [
       { k: "Enrollments", v: "142" },
@@ -53,7 +58,10 @@ const CASES = [
   },
 ];
 
-const CaseStudies = () => (
+const CaseStudies = () => {
+  const { data } = useCaseStudies();
+  const cases = data && data.length > 0 ? data : FALLBACK;
+  return (
   <section id="case-studies" className="py-24 lg:py-32 bg-secondary/40">
     <div className="container mx-auto px-6">
       <ScrollReveal>
@@ -79,8 +87,8 @@ const CaseStudies = () => (
       </ScrollReveal>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {CASES.map((c, i) => (
-          <ScrollReveal key={c.client} delay={i * 60}>
+        {cases.map((c, i) => (
+          <ScrollReveal key={c.id} delay={i * 60}>
             <Link
               to={`/case-studies/${c.slug}`}
               className="block group relative h-full p-8 rounded-2xl bg-card border border-border shadow-soft hover:shadow-crystal hover:-translate-y-1 transition-all duration-300"
@@ -97,7 +105,7 @@ const CaseStudies = () => (
                 </div>
               </div>
               <p className="font-body text-sm text-muted-foreground mb-5 leading-relaxed">
-                <span className="text-foreground font-medium">Challenge:</span> {c.problem}
+                <span className="text-foreground font-medium">Challenge:</span> {c.tagline}
               </p>
               <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/10">
                 <div className="font-display text-base text-primary">{c.result}</div>
@@ -118,6 +126,7 @@ const CaseStudies = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default CaseStudies;
