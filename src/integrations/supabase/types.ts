@@ -137,6 +137,66 @@ export type Database = {
         }
         Relationships: []
       }
+      case_studies: {
+        Row: {
+          approach: Json
+          client: string
+          created_at: string
+          display_order: number
+          id: string
+          industry: string
+          metrics: Json
+          problem: string
+          published: boolean
+          result: string
+          services: Json
+          slug: string
+          strategy: Json
+          tagline: string
+          testimonial: Json | null
+          timeline: string | null
+          updated_at: string
+        }
+        Insert: {
+          approach?: Json
+          client: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          industry: string
+          metrics?: Json
+          problem: string
+          published?: boolean
+          result: string
+          services?: Json
+          slug: string
+          strategy?: Json
+          tagline: string
+          testimonial?: Json | null
+          timeline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approach?: Json
+          client?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          industry?: string
+          metrics?: Json
+          problem?: string
+          published?: boolean
+          result?: string
+          services?: Json
+          slug?: string
+          strategy?: Json
+          tagline?: string
+          testimonial?: Json | null
+          timeline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       consultation_bookings: {
         Row: {
           admin_notes: string | null
@@ -376,6 +436,78 @@ export type Database = {
         }
         Relationships: []
       }
+      faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          display_order: number
+          id: string
+          published: boolean
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          published?: boolean
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          published?: boolean
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          badge: string | null
+          bullets: Json
+          created_at: string
+          description: string
+          display_order: number
+          file_path: string | null
+          id: string
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge?: string | null
+          bullets?: Json
+          created_at?: string
+          description: string
+          display_order?: number
+          file_path?: string | null
+          id?: string
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          badge?: string | null
+          bullets?: Json
+          created_at?: string
+          description?: string
+          display_order?: number
+          file_path?: string | null
+          id?: string
+          published?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_content: {
         Row: {
           content: Json
@@ -450,6 +582,42 @@ export type Database = {
           icon?: string | null
           id?: string
           name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          author: string
+          created_at: string
+          display_order: number
+          id: string
+          published: boolean
+          quote: string
+          rating: number
+          role: string | null
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          published?: boolean
+          quote: string
+          rating?: number
+          role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          published?: boolean
+          quote?: string
+          rating?: number
+          role?: string | null
           updated_at?: string
         }
         Relationships: []
