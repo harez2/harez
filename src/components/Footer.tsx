@@ -84,7 +84,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://web.whatsapp.com/send?phone=8801797395739" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2">
+                <a href="https://wa.me/8801797395739" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2">
                   <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
                 </a>
               </li>

@@ -87,7 +87,7 @@ const Contact = () => {
               {/* Contact rows */}
               <div className="rounded-2xl bg-card border border-border shadow-soft p-6 space-y-4">
                 <ContactRow icon={Mail} label="Email" value="harezalbaki@gmail.com" href="mailto:harezalbaki@gmail.com" />
-                <ContactRow icon={MessageCircle} label="WhatsApp" value="+880 1797 395 739" href="https://web.whatsapp.com/send?phone=8801797395739" external />
+                <ContactRow icon={MessageCircle} label="WhatsApp" value="+880 1797 395 739" href="https://wa.me/8801797395739" external />
                 <ContactRow icon={Linkedin} label="LinkedIn" value="linkedin.com/in/iamharez" href="https://linkedin.com/in/iamharez" external />
                 <ContactRow icon={Phone} label="Phone" value="+880 1797 395 739" href="tel:+8801797395739" />
                 <ContactRow icon={MapPin} label="Location" value="Dhaka, Bangladesh" />
