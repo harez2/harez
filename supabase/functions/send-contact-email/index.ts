@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "harezalbaki@gmail.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -70,9 +71,9 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Portfolio Contact <onboarding@resend.dev>",
-        to: ["harezalbaki@gmail.com"],
+        to: [ADMIN_EMAIL],
         reply_to: email,
-        subject: `New Contact Form Message from ${name}`.slice(0, 200),
+        subject: `[Lead] ${name} — ${email}`.slice(0, 200),
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #2563eb;">New Contact Form Submission</h2>

@@ -80,6 +80,17 @@ const Resources = () => {
       if (error) throw error;
       trackLead(`resource:${active.slug}`);
 
+      // Notify admin (fire-and-forget)
+      supabase.functions
+        .invoke("send-contact-email", {
+          body: {
+            name: name.trim(),
+            email: email.trim(),
+            message: `Resource download: ${active.title}\nSlug: ${active.slug}`,
+          },
+        })
+        .catch(() => {});
+
       if (active.file_path) {
         try {
           const url = await getResourceSignedUrl(active.file_path);
