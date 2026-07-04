@@ -38,11 +38,11 @@ const Brands = () => {
             <span className="inline-block px-4 py-1.5 mb-5 text-sm font-body font-medium text-primary bg-primary/10 rounded-full border border-primary/20">
               Trusted Partners
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-4">
-              Brands I <span className="text-gradient">Worked With</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display mb-3">
+              Trusted by <span className="text-gradient">30+ businesses</span>
             </h2>
             <p className="text-muted-foreground font-body max-w-xl mx-auto text-sm sm:text-base">
-              Collaborated with industry-leading brands to deliver exceptional digital marketing results
+              From bootstrapped startups to established brands across 10+ industries.
             </p>
           </div>
         </ScrollReveal>
