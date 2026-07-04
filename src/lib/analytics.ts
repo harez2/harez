@@ -49,7 +49,7 @@ export const trackEvent = (name: string, params: EventParams = {}) => {
         referrer: document.referrer || null,
         session_id: getSessionId(),
         source: source ? String(source) : null,
-        metadata: rest as Record<string, unknown>,
+        metadata: rest as unknown as Record<string, string | number | boolean | null>,
       })
       .then(() => {}, () => {});
   } catch {
