@@ -10,6 +10,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { CustomizationsProvider } from "@/contexts/CustomizationsContext";
 import Index from "./pages/Index";
 import { Loader2 } from "lucide-react";
+import PageViewTracker from "./components/PageViewTracker";
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -38,6 +39,7 @@ const App = () => (
               <Toaster />
               <Sonner />
               <BrowserRouter>
+                <PageViewTracker />
                 <a href="#main-content" className="skip-to-content">
                   Skip to main content
                 </a>
