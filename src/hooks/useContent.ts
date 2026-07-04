@@ -148,14 +148,16 @@ export const useAdminCaseStudies = () => adminList<CaseStudy>("case_studies");
 /* ---------- ADMIN MUTATIONS ---------- */
 type TableName = "testimonials" | "faqs" | "resources" | "case_studies";
 
-export const useUpsertRow = (table: TableName) => {
+export const useUpsertRow = <T extends { id?: string }>(table: TableName) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (row: Record<string, unknown> & { id?: string }) => {
-      const query =
-        row.id
-          ? supabase.from(table).update(row).eq("id", row.id).select().single()
-          : supabase.from(table).insert(row).select().single();
+    mutationFn: async (row: T) => {
+      const { id, ...rest } = row;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const client = supabase.from(table) as any;
+      const query = id
+        ? client.update(rest).eq("id", id).select().single()
+        : client.insert(rest).select().single();
       const { data, error } = await query;
       if (error) throw error;
       return data;
