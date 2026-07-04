@@ -288,7 +288,7 @@ export const useCreateConsultationBooking = () => {
       // Send notification email
       try {
         await supabase.functions.invoke("send-booking-email", {
-          body: { booking: data, type: "new_booking" },
+          body: { bookingId: data.id, type: "new_booking" },
         });
       } catch (e) {
         console.error("Email notification failed:", e);
@@ -319,7 +319,7 @@ export const useUpdateConsultationBooking = () => {
       if (updates.status) {
         try {
           await supabase.functions.invoke("send-booking-email", {
-            body: { booking: data, type: "status_update" },
+            body: { bookingId: data.id, type: "status_update" },
           });
         } catch (e) {
           console.error("Email notification failed:", e);
