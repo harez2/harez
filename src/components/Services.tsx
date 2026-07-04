@@ -1,44 +1,39 @@
 import { Target, Search, TrendingUp, MousePointerClick, Compass, BarChart3, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import ScrollReveal from "./ScrollReveal";
 
 const SERVICES = [
   {
-    icon: Target,
-    title: "Meta Ads Management",
+    icon: Target, slug: "meta-ads", title: "Meta Ads Management",
     overview: "Full-funnel Facebook & Instagram ad campaigns engineered for measurable ROAS.",
     deliverables: ["Account audit", "Creative testing", "Custom audiences", "Weekly reporting"],
   },
   {
-    icon: Search,
-    title: "Google Ads",
+    icon: Search, slug: "google-ads", title: "Google Ads",
     overview: "Search, Performance Max, and YouTube campaigns tuned for qualified traffic.",
     deliverables: ["Keyword strategy", "Bid optimization", "Ad copy testing", "Conversion tracking"],
   },
   {
-    icon: TrendingUp,
-    title: "SEO",
+    icon: TrendingUp, slug: "seo", title: "SEO",
     overview: "Technical + content SEO that compounds — built for long-term organic growth.",
     deliverables: ["Technical audit", "On-page SEO", "Content strategy", "Link building"],
   },
   {
-    icon: MousePointerClick,
-    title: "Conversion Rate Optimization",
+    icon: MousePointerClick, slug: "cro", title: "Conversion Rate Optimization",
     overview: "Turn more of your existing traffic into leads and revenue.",
     deliverables: ["Heatmap analysis", "A/B testing", "Landing page design", "Funnel review"],
   },
   {
-    icon: Compass,
-    title: "Marketing Strategy",
+    icon: Compass, slug: "marketing-consulting", title: "Marketing Consulting",
     overview: "Positioning, ICP, and channel roadmap tailored to your business goals.",
     deliverables: ["ICP definition", "Channel mix", "12-month roadmap", "KPI framework"],
   },
   {
-    icon: BarChart3,
-    title: "Analytics & Tracking",
+    icon: BarChart3, slug: null, title: "Analytics & Tracking",
     overview: "GA4, GTM, and Meta CAPI setups you can actually trust for decisions.",
     deliverables: ["GA4 setup", "GTM implementation", "Conversion API", "Dashboards"],
   },
-];
+] as const;
 
 const Services = () => (
   <section id="services" className="py-24 lg:py-32 relative overflow-hidden">
@@ -79,12 +74,21 @@ const Services = () => (
                   </li>
                 ))}
               </ul>
-              <a
-                href="#lead-magnet"
-                className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-primary hover:gap-2.5 transition-all"
-              >
-                Get a proposal <ArrowRight className="w-4 h-4" />
-              </a>
+              {s.slug ? (
+                <Link
+                  to={`/services/${s.slug}`}
+                  className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-primary hover:gap-2.5 transition-all"
+                >
+                  Learn more <ArrowRight className="w-4 h-4" />
+                </Link>
+              ) : (
+                <a
+                  href="#lead-magnet"
+                  className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-primary hover:gap-2.5 transition-all"
+                >
+                  Get a proposal <ArrowRight className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </ScrollReveal>
         ))}

@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://harez.lovable.app/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://harez.lovable.app/blog</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://harez.lovable.app/business-growth</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <url><loc>https://harezalbaki.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://harezalbaki.com/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://harezalbaki.com/business-growth</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://harezalbaki.com/services/meta-ads</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://harezalbaki.com/services/google-ads</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://harezalbaki.com/services/seo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://harezalbaki.com/services/cro</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://harezalbaki.com/services/marketing-consulting</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 </urlset>
