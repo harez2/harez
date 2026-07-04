@@ -239,6 +239,7 @@ export type Database = {
           client_phone: string
           created_at: string
           id: string
+          notified_at: string | null
           payment_method: string
           slot_id: string
           status: string
@@ -253,6 +254,7 @@ export type Database = {
           client_phone: string
           created_at?: string
           id?: string
+          notified_at?: string | null
           payment_method: string
           slot_id: string
           status?: string
@@ -267,6 +269,7 @@ export type Database = {
           client_phone?: string
           created_at?: string
           id?: string
+          notified_at?: string | null
           payment_method?: string
           slot_id?: string
           status?: string
@@ -400,6 +403,24 @@ export type Database = {
           id?: string
           is_available?: boolean
           start_time?: string
+        }
+        Relationships: []
+      }
+      contact_rate_limit: {
+        Row: {
+          created_at: string
+          id: string
+          ip_hash: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_hash: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_hash?: string
         }
         Relationships: []
       }
