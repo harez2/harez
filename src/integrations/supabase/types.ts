@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_requests: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          monthly_ad_spend: string | null
+          name: string
+          status: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          monthly_ad_spend?: string | null
+          name: string
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          monthly_ad_spend?: string | null
+          name?: string
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           category: string
