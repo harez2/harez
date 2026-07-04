@@ -12,12 +12,38 @@ const HeroEditor = () => {
     nameHighlight: "",
     subtitle: "",
     resumeUrl: "",
+    headline: "",
+    headlineHighlight: "",
+    headlineSuffix: "",
+    primaryCtaLabel: "",
+    primaryCtaHref: "",
+    secondaryCtaLabel: "",
+    secondaryCtaHref: "",
+    stat1Value: "",
+    stat1Label: "",
+    stat2Value: "",
+    stat2Label: "",
+    stat3Value: "",
+    stat3Label: "",
   });
   const [uploadingResume, setUploadingResume] = useState(false);
 
   useEffect(() => {
     if (content) {
       setFormData({
+        headline: "",
+        headlineHighlight: "",
+        headlineSuffix: "",
+        primaryCtaLabel: "",
+        primaryCtaHref: "",
+        secondaryCtaLabel: "",
+        secondaryCtaHref: "",
+        stat1Value: "",
+        stat1Label: "",
+        stat2Value: "",
+        stat2Label: "",
+        stat3Value: "",
+        stat3Label: "",
         ...content,
         resumeUrl: content.resumeUrl || "",
       });
